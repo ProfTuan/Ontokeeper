@@ -99,6 +99,29 @@
     <build>
         <finalName>ontokeeper-core</finalName>
         <plugins>
+          
+            <plugin>  
+            <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-dependency-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>copy-dependencies</id>
+            <phase>prepare-package</phase>
+            <goals>
+                <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+                <outputDirectory>
+                    ${project.build.directory}/libs
+                </outputDirectory>
+            </configuration>
+        </execution>
+    </executions>
+            </plugin>
+            
+            
+            
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
@@ -119,7 +142,7 @@
                     <target>21</target>
                 </configuration>
             </plugin>
-         
+         <!--
                     <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
@@ -132,7 +155,7 @@
                 </archive>
             </configuration>
         </plugin>
-
+-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -148,13 +171,11 @@
                 <executions>
                     <!-- Run shade goal on package phase -->
                     <execution>
-                        <phase>package</phase>
+                        
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <minimizeJar>false</minimizeJar>
-                        </configuration>
+                    
                     </execution>
                 </executions>
             </plugin>
