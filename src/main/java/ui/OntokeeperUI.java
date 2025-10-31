@@ -4,6 +4,7 @@
  */
 package ui;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
@@ -52,6 +53,11 @@ public class OntokeeperUI extends javax.swing.JFrame {
      * Creates new form OntokeeperUI
      */
     public OntokeeperUI() {
+        try {
+            UIManager.setLookAndFeel( new FlatLightLaf() );
+        } catch (UnsupportedLookAndFeelException ex) {
+            System.getLogger(OntokeeperUI.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
         initComponents();
         this.setLocationRelativeTo(null);
         
