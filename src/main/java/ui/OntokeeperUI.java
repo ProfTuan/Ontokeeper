@@ -36,6 +36,10 @@ import org.jfree.chart.ChartPanel;
 import org.json.JSONObject;
 import scoring.process.BatchScoringTask;
 import scoring.process.OBOElementProcess;
+import static scoring.process.OBOElementProcess.SP_GENERAL_ENTITY_SIZE_LIMIT;
+import static scoring.process.OBOElementProcess.SP_MAX_ELEMENT_DEPTH_LIMIT;
+import static scoring.process.OBOElementProcess.SP_PROPERTY_ENTITY_LIMIT;
+import static scoring.process.OBOElementProcess.SP_TOTAL_ENTITY_SIZE_LIMIT;
 import scoring.process.ScoringTask;
 
 /**
@@ -563,7 +567,16 @@ public class OntokeeperUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+
+
         // TODO add your handling code here:
+        
+        
+          System.setProperty(SP_GENERAL_ENTITY_SIZE_LIMIT, "0"); //set no limit
+        System.setProperty(SP_MAX_ELEMENT_DEPTH_LIMIT, "0");
+        System.setProperty(SP_PROPERTY_ENTITY_LIMIT, "0");
+        System.setProperty(SP_TOTAL_ENTITY_SIZE_LIMIT, "0");
+        
         
         ArrayList<EqualMetricScoreCard> score_cards = null;
         
@@ -571,8 +584,8 @@ public class OntokeeperUI extends javax.swing.JFrame {
         
         batch_task.start();
         
-  
         
+             
         
     }//GEN-LAST:event_jButton6ActionPerformed
 

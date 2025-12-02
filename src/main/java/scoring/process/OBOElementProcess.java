@@ -28,6 +28,7 @@ public class OBOElementProcess extends Thread {
     
     final private String obo_json = "https://obofoundry.org/registry/ontologies.jsonld";
 
+    boolean batch_option = false;
     
     public long num_elements = 0;
     

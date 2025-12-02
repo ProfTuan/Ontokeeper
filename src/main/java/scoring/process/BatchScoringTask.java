@@ -7,6 +7,10 @@ package scoring.process;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import models.EqualMetricScoreCard;
+import static scoring.process.OBOElementProcess.SP_GENERAL_ENTITY_SIZE_LIMIT;
+import static scoring.process.OBOElementProcess.SP_MAX_ELEMENT_DEPTH_LIMIT;
+import static scoring.process.OBOElementProcess.SP_PROPERTY_ENTITY_LIMIT;
+import static scoring.process.OBOElementProcess.SP_TOTAL_ENTITY_SIZE_LIMIT;
 import suite.GenerateLibraryElementsData;
 import suite.VanillaScoring;
 import ui.MessageDialog;
@@ -85,6 +89,11 @@ public class BatchScoringTask extends Thread{
         }
         finally{
             md.dispose();
+            
+             System.clearProperty(SP_GENERAL_ENTITY_SIZE_LIMIT);
+        System.clearProperty(SP_MAX_ELEMENT_DEPTH_LIMIT);
+        System.clearProperty(SP_PROPERTY_ENTITY_LIMIT);
+        System.clearProperty(SP_TOTAL_ENTITY_SIZE_LIMIT);
         }
         
         
