@@ -11,6 +11,8 @@ https://github.com/ProfTuan/Ontokeeper/releases
 
 under development
 
+For latest visit [release page](https://github.com/ProfTuan/Ontokeeper/releases)
+
 # Developers/Contributors
 
 - Tuan Amith (UTMB)
