@@ -590,7 +590,16 @@ public class OntokeeperUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        
+
+
+
+        FileDialog fd = new FileDialog((Frame) this, "Select directory to open");
+        fd.setMode(FileDialog.SAVE);
+        fd.setVisible(true);
+        File selectedFile = new File(fd.getFile());
+        fd.dispose();
+        System.out.println(selectedFile.getName() + " chosen.");
+        String folder_location = fd.getDirectory() + selectedFile.getName()+ ".xlsx";
    
         
         Thread saveThread = new Thread(){
@@ -604,14 +613,14 @@ public class OntokeeperUI extends javax.swing.JFrame {
                 try{
                     md.setVisible(true);
                     
-                    saveBatchFunction();
+                    saveBatchFunction(folder_location);
                 }
                 
                 finally{
                     md.dispose();
                     
                     try {
-                        Desktop.getDesktop().open(new File(txtBatchOutputFolder.getText()));
+                        Desktop.getDesktop().open(new File(folder_location));
                     } catch (IOException ex) {
                         System.getLogger(OntokeeperUI.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                     }
@@ -743,7 +752,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         
     }
     
-    private void saveBatchFunction(){
+    private void saveBatchFunction(String folder_location){
         XSSFWorkbook workbook = new XSSFWorkbook();
         
         Sheet sheet = workbook.createSheet("Results");
@@ -833,7 +842,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         
         try {
             
-            FileOutputStream outputStream = new FileOutputStream(this.txtBatchOutputFolder.getText());
+            FileOutputStream outputStream = new FileOutputStream(folder_location);
             workbook.write(outputStream);
             
             
