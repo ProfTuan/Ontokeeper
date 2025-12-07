@@ -7,16 +7,35 @@ package util;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonValue;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import no.hasmac.jsonld.JsonLd;
 import no.hasmac.jsonld.JsonLdError;
 import no.hasmac.jsonld.document.Document;
 import no.hasmac.jsonld.document.JsonDocument;
 import org.apache.commons.io.FileUtils;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import ui.MessageDialog;
 import ui.OntokeeperUI;
 
@@ -25,6 +44,9 @@ import ui.OntokeeperUI;
  * @author mac
  */
 public class DownloadOBOLibraryTask extends Thread{
+    
+    
+    private Set<String> ignoreList;
     
     final private String obo_json = "https://obofoundry.org/registry/ontologies.jsonld";
     
@@ -45,6 +67,15 @@ public class DownloadOBOLibraryTask extends Thread{
         o = parent;
         
         this.folder_location = folder_location;
+        
+        ignoreList = new HashSet();
+        
+        ignoreList.add("http://purl.obolibrary.org/obo/miapa.owl");
+        ignoreList.add("http://purl.obolibrary.org/obo/gaz.owl");
+        ignoreList.add("http://purl.obolibrary.org/obo/ma.owl");
+        ignoreList.add("http://purl.obolibrary.org/obo/hom.owl");
+        ignoreList.add("http://purl.obolibrary.org/obo/exmo.owl");
+        ignoreList.add("http://purl.obolibrary.org/obo/peco.owl");
     }
     
     @Override
@@ -77,6 +108,11 @@ public class DownloadOBOLibraryTask extends Thread{
         
         InputStream inputstream = null;
         
+        ExecutorService es
+            = Executors.newFixedThreadPool(3);
+        
+        OWLOntologyManager manager = OWLManager.createConcurrentOWLOntologyManager();
+        
         try {
             inputstream = URI.create(obo_json).toURL().openStream();
             Document document = JsonDocument.of(inputstream);
@@ -88,25 +124,45 @@ public class DownloadOBOLibraryTask extends Thread{
                 String status = ja.asJsonObject().get("http://obofoundry.github.io/vocabulary/activity_status").asJsonArray().get(0)
                         .asJsonObject().getString("@value");
                 
-                String id = ja.asJsonObject().get("http://identifiers.org/preferredPrefix").asJsonArray().get(0)
-                        .asJsonObject().getString("@value");
                 
                 
                 
-                if (status.equalsIgnoreCase("active") ) {
                 
+                if (status.equalsIgnoreCase("active")) {
+
+                    String id = ja.asJsonObject().get("http://identifiers.org/preferredPrefix").asJsonArray().get(0)
+                            .asJsonObject().getString("@value");
+
                     System.out.println("Working on... \t" + id);
-                    
+
                     String iri_string = ja.asJsonObject().get("http://www.w3.org/ns/dcat#accessURL").asJsonArray().get(0).asJsonObject().getString("@value");
-                    
+
                     String file_name = id + ".owl";
-                   
-                    FileUtils.copyURLToFile(URI.create(iri_string).toURL(), new File(folder_location + "/" + file_name));
-                    
+
+                    try {
+
+                        //if(!iri_string.equals("http://purl.obolibrary.org/obo/gaz.owl"))
+                        if (ignoreList.contains(iri_string)) {
+                            System.out.println("\t\tIgnoring -" + iri_string);
+                        } else {
+                            System.out.println("\t\t" + iri_string);
+                            md.setMessage("Downloading... " + iri_string);
+                            OWLOntology ontology = manager.loadOntology(IRI.create(iri_string));
+                            manager.saveOntology(ontology, new OWLXMLDocumentFormat(), new FileOutputStream(new File(folder_location + "/" + file_name)));
+                        }
+
+                    } catch (OWLOntologyCreationException ex) {
+                        System.getLogger(DownloadOBOLibraryTask.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                        
+                    } catch (OWLOntologyStorageException ex) {
+                        System.getLogger(DownloadOBOLibraryTask.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                    }
+
                 }
-                
-                
+
             }
+
+            es.shutdown();
             
         } catch (MalformedURLException ex) {
             System.getLogger(DownloadOBOLibraryTask.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
@@ -126,4 +182,7 @@ public class DownloadOBOLibraryTask extends Thread{
         
     }
     
+    
+    
 }
+

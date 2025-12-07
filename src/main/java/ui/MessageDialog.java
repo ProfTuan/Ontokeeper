@@ -37,7 +37,7 @@ public class MessageDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        lblMessageText.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        lblMessageText.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         lblMessageText.setText("Processing. Please Wait.....");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
