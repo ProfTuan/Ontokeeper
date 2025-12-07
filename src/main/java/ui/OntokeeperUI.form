@@ -67,7 +67,7 @@
                       <Component id="txtAverageElements" min="-2" pref="211" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnAvgElements" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <EmptySpace pref="49" max="32767" attributes="0"/>
                       <Component id="btnOBOValue" min="-2" pref="131" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="226" max="-2" attributes="0"/>
                   </Group>
@@ -103,7 +103,7 @@
                                   </Group>
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel8" pref="283" max="32767" attributes="0"/>
+                                  <Component id="jLabel8" pref="294" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="socialPanel" min="-2" max="-2" attributes="0"/>
@@ -454,7 +454,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane2" max="32767" attributes="0"/>
-                          <Component id="jScrollPane1" pref="844" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
                           <Component id="jLabel11" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="btnSelectBatchFolder" min="-2" max="-2" attributes="0"/>
@@ -462,7 +462,7 @@
                               <Component id="txtBatchFolder" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jButton5" max="32767" attributes="0"/>
+                              <Component id="OBOLibraryButton" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="txtBatchOutputFolder" min="-2" pref="728" max="-2" attributes="0"/>
                           </Group>
@@ -472,7 +472,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jButton6" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButton7" min="-2" max="-2" attributes="0"/>
+                                      <Component id="exportResultsButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -498,13 +498,13 @@
                       <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="OBOLibraryButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtBatchOutputFolder" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="exportResultsButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="235" max="-2" attributes="0"/>
@@ -547,7 +547,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Output folder of results"/>
+                <Property name="text" type="java.lang.String" value="or use OBO"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtBatchFolder">
@@ -556,12 +556,12 @@
                 <Property name="text" type="java.lang.String" value="...."/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton5">
+            <Component class="javax.swing.JButton" name="OBOLibraryButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Output Dir"/>
+                <Property name="text" type="java.lang.String" value="Download OBO"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OBOLibraryButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtBatchOutputFolder">
@@ -611,12 +611,12 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jButton7">
+            <Component class="javax.swing.JButton" name="exportResultsButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Export Results"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportResultsButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
