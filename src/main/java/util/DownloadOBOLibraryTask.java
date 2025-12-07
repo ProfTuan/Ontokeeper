@@ -6,6 +6,7 @@ package util;
 
 import jakarta.json.JsonArray;
 import jakarta.json.JsonValue;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -15,6 +16,7 @@ import no.hasmac.jsonld.JsonLd;
 import no.hasmac.jsonld.JsonLdError;
 import no.hasmac.jsonld.document.Document;
 import no.hasmac.jsonld.document.JsonDocument;
+import org.apache.commons.io.FileUtils;
 import ui.MessageDialog;
 import ui.OntokeeperUI;
 
@@ -37,8 +39,12 @@ public class DownloadOBOLibraryTask extends Thread{
     
     private OntokeeperUI o = null;
     
-    public DownloadOBOLibraryTask(OntokeeperUI parent){
+    private String folder_location = "";
+    
+    public DownloadOBOLibraryTask(OntokeeperUI parent, String folder_location){
         o = parent;
+        
+        this.folder_location = folder_location;
     }
     
     @Override
@@ -46,7 +52,7 @@ public class DownloadOBOLibraryTask extends Thread{
         
         md = new MessageDialog(null, false);
         
-        md.setMessage("Retrieving data from OBO Foundry. This may take awhile. Please wait.");
+        md.setMessage("Downloading..This may take awhile. Please wait.");
         
         md.setLocationRelativeTo(null);
         
@@ -82,8 +88,23 @@ public class DownloadOBOLibraryTask extends Thread{
                 String status = ja.asJsonObject().get("http://obofoundry.github.io/vocabulary/activity_status").asJsonArray().get(0)
                         .asJsonObject().getString("@value");
                 
-                String id = ja.asJsonObject().get("http://obofoundry.github.io/vocabulary/activity_status").asJsonArray().get(0)
+                String id = ja.asJsonObject().get("http://identifiers.org/preferredPrefix").asJsonArray().get(0)
                         .asJsonObject().getString("@value");
+                
+                
+                
+                if (status.equalsIgnoreCase("active") ) {
+                
+                    System.out.println("Working on... \t" + id);
+                    
+                    String iri_string = ja.asJsonObject().get("http://www.w3.org/ns/dcat#accessURL").asJsonArray().get(0).asJsonObject().getString("@value");
+                    
+                    String file_name = id + ".owl";
+                   
+                    FileUtils.copyURLToFile(URI.create(iri_string).toURL(), new File(folder_location + "/" + file_name));
+                    
+                }
+                
                 
             }
             

@@ -95,7 +95,7 @@ public class OBOElementProcess extends Thread {
                 String status = ja.asJsonObject().get("http://obofoundry.github.io/vocabulary/activity_status").asJsonArray().get(0)
                         .asJsonObject().getString("@value");
                 
-                
+                System.out.println(ja);
                 if (status.equalsIgnoreCase("active") ) {
                     
                     String title = ja.asJsonObject().get("http://purl.org/dc/elements/1.1/title").asJsonArray().get(0).asJsonObject().getString("@value");

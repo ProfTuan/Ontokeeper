@@ -41,6 +41,7 @@ import static scoring.process.OBOElementProcess.SP_MAX_ELEMENT_DEPTH_LIMIT;
 import static scoring.process.OBOElementProcess.SP_PROPERTY_ENTITY_LIMIT;
 import static scoring.process.OBOElementProcess.SP_TOTAL_ENTITY_SIZE_LIMIT;
 import scoring.process.ScoringTask;
+import util.DownloadOBOLibraryTask;
 
 /**
  *
@@ -119,7 +120,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         txtBatchFolder = new javax.swing.JTextField();
         OBOLibraryButton = new javax.swing.JButton();
-        txtBatchOutputFolder = new javax.swing.JTextField();
+        txtOBOFolder = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         batchTable = new javax.swing.JTable();
@@ -380,8 +381,8 @@ public class OntokeeperUI extends javax.swing.JFrame {
             }
         });
 
-        txtBatchOutputFolder.setEditable(false);
-        txtBatchOutputFolder.setText("...");
+        txtOBOFolder.setEditable(false);
+        txtOBOFolder.setText("...");
 
         jButton6.setText("Run Batch Processing");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -428,7 +429,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(OBOLibraryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBatchOutputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtOBOFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
@@ -455,7 +456,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(OBOLibraryButton)
-                    .addComponent(txtBatchOutputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOBOFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
@@ -553,8 +554,27 @@ public class OntokeeperUI extends javax.swing.JFrame {
 
     private void OBOLibraryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OBOLibraryButtonActionPerformed
         // TODO add your handling code here:
+        /*
+        OBOElementProcess obo_task = new OBOElementProcess(this);
+        
+        obo_task.start();
+        */
         
         
+        System.setProperty("apple.awt.fileDialogForDirectories", "true");
+        FileDialog fd = new FileDialog((Frame) this, "Select directory to open");
+        fd.setMode(FileDialog.LOAD);
+        fd.setVisible(true);
+        File selectedFile = new File(fd.getFile());
+        fd.dispose();
+        System.out.println(selectedFile.getName() + " chosen.");
+        StringBuilder folder_location = new StringBuilder(fd.getDirectory() + selectedFile.getName());
+        txtOBOFolder.setText(folder_location.toString());
+        System.setProperty("apple.awt.fileDialogForDirectories", "false");
+        
+        
+        DownloadOBOLibraryTask download_task = new DownloadOBOLibraryTask(this, folder_location.toString());
+        download_task.start();
         
     }//GEN-LAST:event_OBOLibraryButtonActionPerformed
 
@@ -584,7 +604,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private void exportResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportResultsButtonActionPerformed
 
 
-
+        //System.setProperty("apple.awt.fileDialogForDirectories", "true");
         FileDialog fd = new FileDialog((Frame) this, "Select directory to open");
         fd.setMode(FileDialog.SAVE);
         fd.setVisible(true);
@@ -592,7 +612,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         fd.dispose();
         System.out.println(selectedFile.getName() + " chosen.");
         String file_location = fd.getDirectory() + selectedFile.getName()+ ".xlsx";
-   
+        //System.setProperty("apple.awt.fileDialogForDirectories", "false");
         
         Thread saveThread = new Thread(){
             public void run(){
@@ -922,7 +942,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JPanel syntacticPanel;
     private javax.swing.JTextField txtAverageElements;
     private javax.swing.JTextField txtBatchFolder;
-    private javax.swing.JTextField txtBatchOutputFolder;
+    private javax.swing.JTextField txtOBOFolder;
     private javax.swing.JTextField txtOntologyfile;
     private javax.swing.JTextField txtOutputFile;
     // End of variables declaration//GEN-END:variables

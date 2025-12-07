@@ -464,7 +464,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="OBOLibraryButton" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="txtBatchOutputFolder" min="-2" pref="728" max="-2" attributes="0"/>
+                              <Component id="txtOBOFolder" min="-2" pref="728" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -499,7 +499,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="OBOLibraryButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtBatchOutputFolder" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtOBOFolder" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -564,7 +564,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OBOLibraryButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtBatchOutputFolder">
+            <Component class="javax.swing.JTextField" name="txtOBOFolder">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="text" type="java.lang.String" value="..."/>
