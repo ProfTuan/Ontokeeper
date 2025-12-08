@@ -182,7 +182,9 @@ public class OntologyExtractor extends OntologyDataSource {
 		} catch (OWLOntologyCreationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} catch (Exception e){
+                    System.out.println("Issue with " + file.getName());
+                }
 
 		//get profile violations
 		profile_violations = this.getProfileViolationsFromOntology(ontology);

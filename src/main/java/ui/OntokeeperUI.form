@@ -462,9 +462,11 @@
                               <Component id="txtBatchFolder" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
+                              <Component id="ckOBOOption" min="-2" pref="124" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="OBOLibraryButton" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="txtOBOFolder" min="-2" pref="728" max="-2" attributes="0"/>
+                              <Component id="txtOBOFolder" min="-2" pref="586" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -500,6 +502,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="OBOLibraryButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtOBOFolder" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ckOBOOption" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -547,7 +550,10 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
               <Properties>
-                <Property name="text" type="java.lang.String" value="or use OBO"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Helvetica Neue" size="13" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="OBO Foundry Library Option"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtBatchFolder">
@@ -559,6 +565,7 @@
             <Component class="javax.swing.JButton" name="OBOLibraryButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Download OBO"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OBOLibraryButtonActionPerformed"/>
@@ -617,6 +624,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportResultsButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="ckOBOOption">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="use OBO Repo"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ckOBOOptionActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

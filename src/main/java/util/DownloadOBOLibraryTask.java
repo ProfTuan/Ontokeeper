@@ -76,6 +76,8 @@ public class DownloadOBOLibraryTask extends Thread{
         ignoreList.add("http://purl.obolibrary.org/obo/hom.owl");
         ignoreList.add("http://purl.obolibrary.org/obo/exmo.owl");
         ignoreList.add("http://purl.obolibrary.org/obo/peco.owl");
+        ignoreList.add("http://purl.obolibrary.org/obo/nomen.owl");
+        ignoreList.add("http://purl.obolibrary.org/obo/htn.owl");
     }
     
     @Override

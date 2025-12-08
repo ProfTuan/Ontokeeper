@@ -297,7 +297,9 @@ public class VanillaScoring {
             });
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } catch (Exception e){
+        System.out.println("error");
+    }
         
         
         System.out.println("Count of score cords: " + score_cards.size());

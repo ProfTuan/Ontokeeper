@@ -125,6 +125,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         batchTable = new javax.swing.JTable();
         exportResultsButton = new javax.swing.JButton();
+        ckOBOOption = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -369,12 +370,14 @@ public class OntokeeperUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setText("or use OBO");
+        jLabel12.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel12.setText("OBO Foundry Library Option");
 
         txtBatchFolder.setEditable(false);
         txtBatchFolder.setText("....");
 
         OBOLibraryButton.setText("Download OBO");
+        OBOLibraryButton.setEnabled(false);
         OBOLibraryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OBOLibraryButtonActionPerformed(evt);
@@ -412,6 +415,13 @@ public class OntokeeperUI extends javax.swing.JFrame {
             }
         });
 
+        ckOBOOption.setText("use OBO Repo");
+        ckOBOOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ckOBOOptionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -427,9 +437,11 @@ public class OntokeeperUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtBatchFolder))
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(ckOBOOption, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(OBOLibraryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtOBOFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtOBOFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
@@ -456,7 +468,8 @@ public class OntokeeperUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(OBOLibraryButton)
-                    .addComponent(txtOBOFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOBOFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ckOBOOption))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
@@ -656,6 +669,20 @@ public class OntokeeperUI extends javax.swing.JFrame {
         obo_task.start();
         
     }//GEN-LAST:event_btnOBOValueActionPerformed
+
+    private void ckOBOOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckOBOOptionActionPerformed
+        // TODO add your handling code here:
+        
+        if(ckOBOOption.isSelected()){
+            this.OBOLibraryButton.setEnabled(true);
+            this.btnSelectBatchFolder.setEnabled(false);
+        }
+        else{
+            this.OBOLibraryButton.setEnabled(false);
+            this.btnSelectBatchFolder.setEnabled(true);
+        }
+        
+    }//GEN-LAST:event_ckOBOOptionActionPerformed
 
     public void setElementValue(long value){
         
@@ -911,6 +938,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JButton btnOBOValue;
     private javax.swing.JButton btnSelectBatchFolder;
     private javax.swing.JCheckBox ckJson;
+    private javax.swing.JCheckBox ckOBOOption;
     private javax.swing.JButton exportResultsButton;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton6;

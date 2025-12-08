@@ -87,6 +87,9 @@ public class BatchScoringTask extends Thread{
             
             
         }
+        catch (Exception e){
+            System.out.println("Error");
+        }
         finally{
             md.dispose();
             
