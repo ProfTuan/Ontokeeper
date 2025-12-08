@@ -141,7 +141,7 @@ public class DownloadOBOLibraryTask extends Thread{
 
                     try {
 
-                        //if(!iri_string.equals("http://purl.obolibrary.org/obo/gaz.owl"))
+                        
                         if (ignoreList.contains(iri_string)) {
                             System.out.println("\t\tIgnoring -" + iri_string);
                         } else {
@@ -156,6 +156,11 @@ public class DownloadOBOLibraryTask extends Thread{
                         
                     } catch (OWLOntologyStorageException ex) {
                         System.getLogger(DownloadOBOLibraryTask.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                    } catch (Exception e){
+                        System.out.println("Some issue with ..." + iri_string);
+                    }
+                    finally{
+                        //manager.saveOntology(ontology, new OWLXMLDocumentFormat(), new FileOutputStream(new File(folder_location + "/" + file_name)));
                     }
 
                 }
