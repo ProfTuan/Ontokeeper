@@ -125,7 +125,9 @@ public class OntokeeperUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         batchTable = new javax.swing.JTable();
         exportResultsButton = new javax.swing.JButton();
-        ckOBOOption = new javax.swing.JCheckBox();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -201,6 +203,11 @@ public class OntokeeperUI extends javax.swing.JFrame {
         jLabel9.setText("Overall Score");
 
         btnAvgElements.setText("Get Element Value");
+        btnAvgElements.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvgElementsActionPerformed(evt);
+            }
+        });
 
         btnOBOValue.setText("Use OBO Value");
         btnOBOValue.addActionListener(new java.awt.event.ActionListener() {
@@ -242,7 +249,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
                 .addComponent(txtAverageElements, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnAvgElements)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
                 .addComponent(btnOBOValue, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(226, 226, 226))
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -270,7 +277,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
                                 .addComponent(lblPragmatic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(socialPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -354,14 +361,17 @@ public class OntokeeperUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Vanilla Scoring", jPanel2);
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jTextArea1.setText("For the scores to be meaningful, there needs to be some benchmark to assess the overall quality of the target ontology. This panel provides a quick way to generate the metadata needed to preform the evaluation.");
+        jTextArea1.setEnabled(false);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jLabel11.setText("Folder of ontologies");
+        jLabel11.setText("Folder of ontologies (ensure your own ontology is in the same folder)");
 
         btnSelectBatchFolder.setText("Select Folder");
         btnSelectBatchFolder.addActionListener(new java.awt.event.ActionListener() {
@@ -377,7 +387,6 @@ public class OntokeeperUI extends javax.swing.JFrame {
         txtBatchFolder.setText("....");
 
         OBOLibraryButton.setText("Download OBO");
-        OBOLibraryButton.setEnabled(false);
         OBOLibraryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OBOLibraryButtonActionPerformed(evt);
@@ -415,40 +424,43 @@ public class OntokeeperUI extends javax.swing.JFrame {
             }
         });
 
-        ckOBOOption.setText("use OBO Repo");
-        ckOBOOption.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ckOBOOptionActionPerformed(evt);
-            }
-        });
+        jTextArea2.setColumns(20);
+        jTextArea2.setLineWrap(true);
+        jTextArea2.setRows(5);
+        jTextArea2.setText("As an option you can download the resources from OBO Foundry and use the set to compare your ontology with. Please note this will take awhile to download.");
+        jTextArea2.setEnabled(false);
+        jScrollPane3.setViewportView(jTextArea2);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exportResultsButton))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btnSelectBatchFolder)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBatchFolder))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(ckOBOOption, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(txtBatchFolder)))
+                .addGap(12, 12, 12))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator1)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(OBOLibraryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtOBOFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jButton6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(exportResultsButton)))
+                        .addComponent(txtOBOFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(240, 240, 240))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -456,27 +468,30 @@ public class OntokeeperUI extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSelectBatchFolder)
-                    .addComponent(txtBatchFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(OBOLibraryButton)
-                    .addComponent(txtOBOFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ckOBOOption))
-                .addGap(27, 27, 27)
+                    .addComponent(txtOBOFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSelectBatchFolder)
+                    .addComponent(txtBatchFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
                     .addComponent(exportResultsButton))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Batch Scoring", jPanel3);
@@ -495,7 +510,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("Batch Scoring");
@@ -529,7 +544,12 @@ public class OntokeeperUI extends javax.swing.JFrame {
         
         fd.dispose();
         
-        this.txtOutputFile.setText(fd.getDirectory() + fd.getFile());
+        if(!file.isEmpty()){
+            this.txtOutputFile.setText(fd.getDirectory() + fd.getFile());
+        }
+        
+        
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btSelectTargetOntologyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSelectTargetOntologyActionPerformed
@@ -543,9 +563,16 @@ public class OntokeeperUI extends javax.swing.JFrame {
         fd.setVisible(true);
         String file = fd.getFile();
         fd.dispose();
-        System.out.println(file + " chosen.");
+        
+        if(!file.isEmpty()){
+            
+            System.out.println(file + " chosen.");
         
         this.txtOntologyfile.setText(fd.getDirectory() + fd.getFile());
+            
+        } 
+        
+        
 
 
     }//GEN-LAST:event_btSelectTargetOntologyActionPerformed
@@ -558,21 +585,19 @@ public class OntokeeperUI extends javax.swing.JFrame {
         fd.setVisible(true);
         File selectedFile = new File(fd.getFile());
         fd.dispose();
-        System.out.println(selectedFile.getName() + " chosen.");
-        txtBatchFolder.setText(fd.getDirectory() + selectedFile.getName());
+
+        if (!selectedFile.getName().isEmpty()) {
+            System.out.println(selectedFile.getName() + " chosen.");
+            txtBatchFolder.setText(fd.getDirectory() + selectedFile.getName());
+        }
+
         System.setProperty("apple.awt.fileDialogForDirectories", "false");
 
-        
+
     }//GEN-LAST:event_btnSelectBatchFolderActionPerformed
 
     private void OBOLibraryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OBOLibraryButtonActionPerformed
-        // TODO add your handling code here:
-        /*
-        OBOElementProcess obo_task = new OBOElementProcess(this);
-        
-        obo_task.start();
-        */
-        
+
         
         System.setProperty("apple.awt.fileDialogForDirectories", "true");
         FileDialog fd = new FileDialog((Frame) this, "Select directory to open");
@@ -580,14 +605,20 @@ public class OntokeeperUI extends javax.swing.JFrame {
         fd.setVisible(true);
         File selectedFile = new File(fd.getFile());
         fd.dispose();
-        System.out.println(selectedFile.getName() + " chosen.");
-        StringBuilder folder_location = new StringBuilder(fd.getDirectory() + selectedFile.getName());
-        txtOBOFolder.setText(folder_location.toString());
+        
+        if (!selectedFile.getName().isEmpty()) {
+
+            System.out.println(selectedFile.getName() + " chosen.");
+            StringBuilder folder_location = new StringBuilder(fd.getDirectory() + selectedFile.getName());
+            txtOBOFolder.setText(folder_location.toString());
+            
+
+            DownloadOBOLibraryTask download_task = new DownloadOBOLibraryTask(this, folder_location.toString());
+            download_task.start();
+
+        }
+
         System.setProperty("apple.awt.fileDialogForDirectories", "false");
-        
-        
-        DownloadOBOLibraryTask download_task = new DownloadOBOLibraryTask(this, folder_location.toString());
-        download_task.start();
         
     }//GEN-LAST:event_OBOLibraryButtonActionPerformed
 
@@ -616,49 +647,49 @@ public class OntokeeperUI extends javax.swing.JFrame {
 
     private void exportResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportResultsButtonActionPerformed
 
-
         //System.setProperty("apple.awt.fileDialogForDirectories", "true");
         FileDialog fd = new FileDialog((Frame) this, "Select directory to open");
         fd.setMode(FileDialog.SAVE);
         fd.setVisible(true);
         File selectedFile = new File(fd.getFile());
         fd.dispose();
-        System.out.println(selectedFile.getName() + " chosen.");
-        String file_location = fd.getDirectory() + selectedFile.getName()+ ".xlsx";
-        //System.setProperty("apple.awt.fileDialogForDirectories", "false");
-        
-        Thread saveThread = new Thread(){
-            public void run(){
-                
-                MessageDialog md = new MessageDialog(null, false);
-                
-                md.setMessage("Saving. Please wait....");
-                md.setLocationRelativeTo(null);
-                
-                try{
-                    md.setVisible(true);
-                    
-                    saveBatchFunction(file_location);
-                }
-                
-                finally{
-                    md.dispose();
-                    
+
+        if (!selectedFile.getName().isEmpty()) {
+
+            System.out.println(selectedFile.getName() + " chosen.");
+            String file_location = fd.getDirectory() + selectedFile.getName() + ".xlsx";
+            //System.setProperty("apple.awt.fileDialogForDirectories", "false");
+
+            Thread saveThread = new Thread() {
+                public void run() {
+
+                    MessageDialog md = new MessageDialog(null, false);
+
+                    md.setMessage("Saving. Please wait....");
+                    md.setLocationRelativeTo(null);
+
                     try {
-                        Desktop.getDesktop().open(new File(file_location));
-                    } catch (IOException ex) {
-                        System.getLogger(OntokeeperUI.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                        md.setVisible(true);
+
+                        saveBatchFunction(file_location);
+                    } finally {
+                        md.dispose();
+
+                        try {
+                            Desktop.getDesktop().open(new File(file_location));
+                        } catch (IOException ex) {
+                            System.getLogger(OntokeeperUI.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                        }
                     }
+
                 }
-                
-                
-                
-            }
-        };
-        
-        saveThread.start();
-        
-        
+            };
+
+            saveThread.start();
+
+        }
+
+
     }//GEN-LAST:event_exportResultsButtonActionPerformed
 
     private void btnOBOValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOBOValueActionPerformed
@@ -670,19 +701,9 @@ public class OntokeeperUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnOBOValueActionPerformed
 
-    private void ckOBOOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckOBOOptionActionPerformed
+    private void btnAvgElementsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvgElementsActionPerformed
         // TODO add your handling code here:
-        
-        if(ckOBOOption.isSelected()){
-            this.OBOLibraryButton.setEnabled(true);
-            this.btnSelectBatchFolder.setEnabled(false);
-        }
-        else{
-            this.OBOLibraryButton.setEnabled(false);
-            this.btnSelectBatchFolder.setEnabled(true);
-        }
-        
-    }//GEN-LAST:event_ckOBOOptionActionPerformed
+    }//GEN-LAST:event_btnAvgElementsActionPerformed
 
     public void setElementValue(long value){
         
@@ -938,7 +959,6 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JButton btnOBOValue;
     private javax.swing.JButton btnSelectBatchFolder;
     private javax.swing.JCheckBox ckJson;
-    private javax.swing.JCheckBox ckOBOOption;
     private javax.swing.JButton exportResultsButton;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton6;
@@ -957,8 +977,11 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel lblOverallScore;
     private javax.swing.JLabel lblPragmatic;
     private javax.swing.JLabel lblSemantic;
