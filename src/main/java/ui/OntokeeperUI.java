@@ -361,8 +361,6 @@ public class OntokeeperUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Vanilla Scoring", jPanel2);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setLineWrap(true);
