@@ -70,14 +70,14 @@ public class DownloadOBOLibraryTask extends Thread{
         
         ignoreList = new HashSet();
         
-        ignoreList.add("http://purl.obolibrary.org/obo/miapa.owl");
-        ignoreList.add("http://purl.obolibrary.org/obo/gaz.owl");
-        ignoreList.add("http://purl.obolibrary.org/obo/ma.owl");
-        ignoreList.add("http://purl.obolibrary.org/obo/hom.owl");
-        ignoreList.add("http://purl.obolibrary.org/obo/exmo.owl");
-        ignoreList.add("http://purl.obolibrary.org/obo/peco.owl");
-        ignoreList.add("http://purl.obolibrary.org/obo/nomen.owl");
-        ignoreList.add("http://purl.obolibrary.org/obo/htn.owl");
+        //ignoreList.add("http://purl.obolibrary.org/obo/miapa.owl"); //ok
+        //ignoreList.add("http://purl.obolibrary.org/obo/gaz.owl");
+        //ignoreList.add("http://purl.obolibrary.org/obo/ma.owl"); //checked out
+        //ignoreList.add("http://purl.obolibrary.org/obo/hom.owl"); //checked out
+        //ignoreList.add("http://purl.obolibrary.org/obo/exmo.owl"); //checked out
+        //ignoreList.add("http://purl.obolibrary.org/obo/peco.owl"); //checked out
+        ignoreList.add("http://purl.obolibrary.org/obo/nomen.owl"); // parsing issue
+        ignoreList.add("http://purl.obolibrary.org/obo/htn.owl"); //parsing issue
     }
     
     @Override
@@ -116,8 +116,7 @@ public class DownloadOBOLibraryTask extends Thread{
         OWLOntologyManager manager = OWLManager.createConcurrentOWLOntologyManager();
         
         try {
-            inputstream = URI.create(obo_json).toURL().openStream();
-            Document document = JsonDocument.of(inputstream);
+
             
             JsonArray json_array = JsonLd.expand(obo_json).ordered().get();
             
@@ -160,6 +159,7 @@ public class DownloadOBOLibraryTask extends Thread{
                         System.getLogger(DownloadOBOLibraryTask.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                     } catch (Exception e){
                         System.out.println("Some issue with ..." + iri_string);
+                        System.getLogger(DownloadOBOLibraryTask.class.getName()).log(System.Logger.Level.ERROR, (String) null, e);
                     }
                     finally{
                         //manager.saveOntology(ontology, new OWLXMLDocumentFormat(), new FileOutputStream(new File(folder_location + "/" + file_name)));
@@ -171,10 +171,6 @@ public class DownloadOBOLibraryTask extends Thread{
 
             es.shutdown();
             
-        } catch (MalformedURLException ex) {
-            System.getLogger(DownloadOBOLibraryTask.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        } catch (IOException ex) {
-            System.getLogger(DownloadOBOLibraryTask.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         } catch (JsonLdError ex) {
             System.getLogger(DownloadOBOLibraryTask.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
