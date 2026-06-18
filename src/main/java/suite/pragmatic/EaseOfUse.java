@@ -11,7 +11,7 @@ import models.AbstractMetric;
  * @author mac
  */
 public class EaseOfUse extends AbstractMetric {
-//proportion of annotations to axioms 
+//proportion of annotations to axioms (any annotations)
     @Override
     public double calculate() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

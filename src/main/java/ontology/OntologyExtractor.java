@@ -237,6 +237,7 @@ public class OntologyExtractor extends OntologyDataSource {
             }
             //System.out.println(count_subclass);
             this.number_of_subclasses = count_subclass;
+            System.out.println(this.classList.size());
         }
         
         public void collectLeafMetrics(){
@@ -245,6 +246,7 @@ public class OntologyExtractor extends OntologyDataSource {
             long count = ontology.classesInSignature().filter(c->ontology.subClassAxiomsForSuperClass(c).count()==0).count();
             
             this.number_of_leaves = count;
+            System.out.println(count);
         }
         
         public void collectAverageLeafAncestorMetrics(){
@@ -266,12 +268,19 @@ public class OntologyExtractor extends OntologyDataSource {
             OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
             reasoner.precomputeInferences();
             
-            
+            long deepest = 0;
             for(var o : collect){
-                count=count+reasoner.getSuperClasses(o,true).getFlattened().size();
+                
+                long temp = reasoner.getSuperClasses(o,true).getFlattened().size();
+                
+                if(temp> deepest) deepest = temp;
+                
+                count=count+temp;
             }
             //collect.stream().forEach(o->o);
-            System.out.println(count);
+            //System.out.println(count);
+            //System.out.println("deepest: " +deepest);
+            this.deepest_leaf = deepest;
             average_ancestor_for_leaves = count;
             //collect.stream().filter(a->ontology.subClassAxiomsForSuperClass(a).filter(predicate))
         }
@@ -302,8 +311,8 @@ public class OntologyExtractor extends OntologyDataSource {
                 
                 oe.getOntologyTotalElements(IRI.create(chembi));
                 //oe.collectAverageLeafAncestorMetrics();
-                oe.collectClassMetrics();
-                oe.collectLeafMetrics();
+                //oe.collectClassMetrics();
+                //oe.collectLeafMetrics();
                 oe.collectAverageLeafAncestorMetrics();
                 System.out.println(DateTime.now(DateTimeZone.forID("America/Chicago")));
 	}

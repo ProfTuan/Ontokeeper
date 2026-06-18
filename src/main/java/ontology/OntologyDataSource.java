@@ -17,6 +17,7 @@ public abstract class OntologyDataSource {
         public long number_of_subclasses =0;
         public long number_of_leaves = 0;
         public long average_ancestor_for_leaves = 0;
+        public long deepest_leaf =0;
         
 	public long number_of_elements = 0;
 	
