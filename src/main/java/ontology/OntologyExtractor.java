@@ -272,7 +272,7 @@ public class OntologyExtractor extends OntologyDataSource {
             }
             //collect.stream().forEach(o->o);
             System.out.println(count);
-            
+            average_ancestor_for_leaves = count;
             //collect.stream().filter(a->ontology.subClassAxiomsForSuperClass(a).filter(predicate))
         }
         
