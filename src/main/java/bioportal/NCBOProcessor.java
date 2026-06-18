@@ -49,10 +49,9 @@ public class NCBOProcessor extends Thread {
     public void getAllOntologies(){
         
         ontologies = new HashSet<>();
-        
-        
+
         String resourceString = REST_URL + "/ontologies";
-        String authorization = API_KEY;
+        String authorization = "apikey=" +API_KEY;
         resourceString = resourceString +"?" +authorization;
         
         System.out.println(resourceString);
@@ -65,10 +64,8 @@ public class NCBOProcessor extends Thread {
             
             conn.setRequestMethod("GET");
             
-            
             conn.connect();
 
-            
             JsonNode jn = mapper.readTree(url.openStream());
             
       
@@ -112,7 +109,7 @@ public class NCBOProcessor extends Thread {
         
         for(NCBOModel nm: ontologies){
             
-            if(nm.getTotalNumberElements()<41){ // to minimize processing time
+            //if(nm.getTotalNumberElements()<41){ // to minimize processing time
             
             System.out.println("\t" + "class info...");
             
@@ -133,10 +130,12 @@ public class NCBOProcessor extends Thread {
             Map<String, String> instance_labels = this.getLabels(instance_link);
             nm.addInstanceLabels(instance_labels);
                
-            }
+            //}
             
             
         }
+        
+        ontologies.forEach(n->n.rectifyMissingInformation());
         
     }
     
@@ -171,7 +170,7 @@ public class NCBOProcessor extends Thread {
         });
         
         try {
-            FileUtils.writeStringToFile(new File("output.txt"), sb.toString(), Charset.forName("UTF-8"));
+            FileUtils.writeStringToFile(new File("output-review-labels.txt"), sb.toString(), Charset.forName("UTF-8"));
         } catch (IOException ex) {
             System.getLogger(NCBOProcessor.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
@@ -232,7 +231,7 @@ public class NCBOProcessor extends Thread {
                 else{
                     jn.forEach(j->{
                         
-                        System.out.println(j.get("label").asText() + "\t" + j.get("@id").asText() + "\n**************\n");
+                        //System.out.println(j.get("label").asText() + "\t" + j.get("@id").asText() + "\n**************\n");
                         entity_labels.put(j.get("@id").asText(), j.get("label").asText());
                         //System.out.println( j.toPrettyString() + "\n**************\n");
                         

@@ -37,7 +37,14 @@ public class NCBOModel {
     
     public static void main(String[] args) {
         
+        NCBOModel nm = new NCBOModel();
+        String extracted = nm.extractLabelFromId("http://purl.obolibrary.org/obo/pdumdv/granular_stage");
+        
+        System.out.println(extracted);
+        
     }
+    
+    
     
     public void addPropertyLabels(Map<String,String>collection){
         properties.putAll(collection);
@@ -68,37 +75,7 @@ public class NCBOModel {
         classes = new HashMap<>();
         properties = new HashMap<>();
     }
-    
-    /*
-    class NCBO_Instance{
-        public String label;
-        public String id;
-    }
-    
-    class NCBO_Property{
-        public String label;
-        public String id;
-    }
-    
-    class NCBO_Class{
-        
-        public String label;
-        public String id;
-        
-    }
-    */
-    
 
-    
-    /*
-    public void insertInstance(String id,String label){
-        NCBO_Instance ni = new NCBO_Instance();
-        ni.label = label;
-        ni.id = id;
-        instances.add(ni);
-
-    }
-    */
     public void retrieveMetrics(String authorization){
         
         ObjectMapper mapper = new ObjectMapper();
@@ -158,7 +135,68 @@ public class NCBOModel {
     
     //TODO: rectify accurate elements
     
+    public void rectifyMissingInformation(){
+        this.imputeLabelInformation();
+        this.recountElementsFromCollection();
+    }
+    
+    
+    private void recountElementsFromCollection(){
+
+        this.metrics.individuals = instances.size();
+        this.metrics.properties = properties.size();
+        this.metrics.classes = classes.size();
+        
+        metrics.total_elements = metrics.individuals + metrics.properties + metrics.classes;
+    }
+    
     //TODO: generate labels from URI
+    
+    private String extractLabelFromId(String uri){
+        StringBuilder sb = new StringBuilder();
+        int idx = uri.indexOf("#")+1;
+        if(idx>0){
+            sb.append(uri.substring(idx));
+        }
+        
+        
+        
+        return sb.toString();
+    }
+    
+    private void imputeLabelInformation(){
+        
+ 
+        deriveLabelFromURI(properties);
+        
+        deriveLabelFromURI(classes);
+        
+        deriveLabelFromURI(instances);
+        
+       
+        
+    }
+    
+    private void deriveLabelFromURI(Map<String,String> collection){
+        Map<String, String> temp = new HashMap<>();
+        
+        collection.forEach((id, label)->{
+            
+            if(label == null || label.isEmpty() || label.equals("null")){
+                if(id.contains("#")){
+                    temp.put(id, extractLabelFromId(id));
+                }
+                
+            }
+            
+        });
+        
+        for(var t: temp.entrySet()){
+            collection.replace(t.getKey(), t.getValue());
+        }
+        
+        
+    }
     
     public long getTotalNumberElements(){
         if(this.metrics !=null){

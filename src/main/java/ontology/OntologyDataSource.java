@@ -13,7 +13,10 @@ public abstract class OntologyDataSource {
 	public int number_of_axioms = 0;
 	public int number_of_syntatic_used=0;
 	public int total_syntatics = 0;
-	
+	public long number_of_annotations = 0;
+        public long number_of_subclasses =0;
+        public long number_of_leaves = 0;
+        
 	public long number_of_elements = 0;
 	
 	Set<String>classList = new HashSet<String>();

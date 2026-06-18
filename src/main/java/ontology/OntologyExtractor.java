@@ -1,6 +1,9 @@
 package ontology;
 
 import java.io.File;
+import java.util.Date;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -28,7 +31,14 @@ import org.semanticweb.owlapi.profiles.OWLProfileReport;
 import org.semanticweb.owlapi.search.EntitySearcher;
 
 import net.sf.extjwnl.data.POS;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
+import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
 import util.ConfigFlags;
 import wordnet.Lexicon;
 import wordnet.WordNetService;
@@ -209,8 +219,66 @@ public class OntologyExtractor extends OntologyDataSource {
                
                 
 		this.number_of_elements = (num_classes + num_dp + num_op + num_int);
-
+                
+                this.collectClassMetrics();
+                this.collectLeafMetrics();
 	}
+        
+        public void collectClassMetrics(){
+            //number of subclasses
+            
+            int count_subclass =0;
+            for(var a : ontology.getAxioms(AxiomType.SUBCLASS_OF)){
+                
+                if(a.getSubClass() instanceof OWLClass){
+                    count_subclass++;
+                }
+                
+            }
+            //System.out.println(count_subclass);
+            this.number_of_subclasses = count_subclass;
+        }
+        
+        public void collectLeafMetrics(){
+            //credit: https://stackoverflow.com/questions/58436546/retrieve-just-root-classes-classes-with-no-asserted-subclassof-parent-class
+            //Set<OWLClass> collect = ontology.classesInSignature().filter(c->ontology.subClassAxiomsForSuperClass(c).count()==0).collect(Collectors.toSet());
+            long count = ontology.classesInSignature().filter(c->ontology.subClassAxiomsForSuperClass(c).count()==0).count();
+            
+            this.number_of_leaves = count;
+        }
+        
+        public void collectAverageLeafAncestorMetrics(){
+            
+            long count = 0;
+            /*
+            Set<OWLClass> collect = ontology.classesInSignature().filter(c->ontology.subClassAxiomsForSuperClass(c).count()==0).collect(Collectors.toSet());
+            
+            for(var o :collect){
+                System.out.println(o.toStringID() + ">>>");
+                Set<OWLSubClassOfAxiom> collect1 = ontology.subClassAxiomsForSubClass(o).collect(Collectors.toSet());
+                collect1.stream().forEach(System.out::println);
+            }
+            */
+            
+            Set<OWLClass> collect = ontology.classesInSignature().filter(c->ontology.subClassAxiomsForSuperClass(c).count()==0).collect(Collectors.toSet());
+            
+            OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
+            OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
+            reasoner.precomputeInferences();
+            
+            
+            for(var o : collect){
+                count=count+reasoner.getSuperClasses(o,true).getFlattened().size();
+            }
+            //collect.stream().forEach(o->o);
+            System.out.println(count);
+            
+            //collect.stream().filter(a->ontology.subClassAxiomsForSuperClass(a).filter(predicate))
+        }
+        
+        public void collectAnnotationMetrics(){
+            this.number_of_annotations = ontology.annotations().count();
+        }
 
 	public int getProfileViolationsFromOntology(OWLOntology o) {
 		OWL2DLProfile profile = new OWL2DLProfile();
@@ -225,9 +293,19 @@ public class OntologyExtractor extends OntologyDataSource {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-
-
-
+                System.out.println(DateTime.now(DateTimeZone.forID("America/Chicago")));
+                OntologyExtractor oe = OntologyExtractor.getInstance();
+                
+                String maxo = "http://purl.obolibrary.org/obo/maxo.owl";
+                String bfo = "http://purl.obolibrary.org/obo/bfo.owl";
+                String chembi = "http://purl.obolibrary.org/obo/chebi.owl";
+                
+                oe.getOntologyTotalElements(IRI.create(chembi));
+                //oe.collectAverageLeafAncestorMetrics();
+                oe.collectClassMetrics();
+                oe.collectLeafMetrics();
+                oe.collectAverageLeafAncestorMetrics();
+                System.out.println(DateTime.now(DateTimeZone.forID("America/Chicago")));
 	}
 
 	private void extractAxiomTerms(OWLOntology o) {
