@@ -20,7 +20,7 @@ public class EaseOfUse extends AbstractMetric {
     
     private static EaseOfUse INSTANCE = null;
     
-    private EaseOfUse(){
+    public EaseOfUse(){
         
         OntologyExtractor oe = OntologyExtractor.getInstance();
         number_elements = oe.number_of_elements;

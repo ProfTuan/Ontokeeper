@@ -6,7 +6,8 @@ import models.Metric;
 public class Pragmatic extends AbstractMetric{
 
         private Comprehensiveness c = null;
-
+        private Adaptability a = null;
+        private EaseOfUse e = null;
 	private static Pragmatic INSTANCE = null;
 
 	public static void main(String[] args) {
@@ -16,6 +17,8 @@ public class Pragmatic extends AbstractMetric{
 
 	public Pragmatic() {
             c = new Comprehensiveness();
+            a = new Adaptability();
+            e = new EaseOfUse();
 	}
 
 	public static Pragmatic getInstance() {
@@ -27,11 +30,23 @@ public class Pragmatic extends AbstractMetric{
 	}
 
         public void setEqualWeightedScoring(){
-            c.calculate(1);
+            //c.calculate(1);
+            
+            c.setWeight(0.333);
+            a.setWeight(0.333);
+            e.setWeight(0.333);
         }
         
         public double Comprehensiveness(){
             return c.getScore();
+        }
+        
+        public double Adaptablity(){
+            return a.getScore();
+        }
+        
+        public double EaseOfUse(){
+            return e.getScore();
         }
 
 	@Override
@@ -40,9 +55,13 @@ public class Pragmatic extends AbstractMetric{
 		score = 0.0;
                 
                 c.calculate();
+                a.calculate();
+                e.calculate();
 
-		score = c.getScore();
+		//score = c.getScore();
 
+                score = (c.getScore() * c.getWeight()) + (a.getScore() * a.getWeight()) + (e.getScore() * e.getWeight());
+                
 		return score;
 	}
 

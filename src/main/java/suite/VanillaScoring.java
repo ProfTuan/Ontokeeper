@@ -24,6 +24,8 @@ import org.json.JSONObject;
 import ontology.OntologyExtractor;
 import scoring.EqualWeightedComputation;
 import scoring.ScoreCardFactory;
+import suite.pragmatic.Adaptability;
+import suite.pragmatic.EaseOfUse;
 import suite.pragmatic.Pragmatic;
 import suite.semantic.Clarity;
 import suite.semantic.Consistency;
@@ -31,6 +33,7 @@ import suite.semantic.Interpretability;
 import suite.semantic.Semantic;
 import suite.syntactic.Lawfulness;
 import suite.syntactic.Richness;
+import suite.syntactic.Structure;
 import suite.syntactic.Syntactic;
 import util.ConfigFlags;
 
@@ -275,14 +278,7 @@ public class VanillaScoring {
 
                         this.filePath = p.toFile().getAbsolutePath();
                         System.out.println("Calculating..." + filePath.toString());
-                        //if(!json)
-                        //{
-                        //   this.fileOutput = folder + p.getFileName() + ".txt"; 
-                        //}
-                        //else{
-                        //   this.fileOutput = folder + p.getFileName(); 
-                        //}
-                        //run();
+                  
                         OntologyExtractor oe = OntologyExtractor.getInstance();
                         //oe.refresh();
                         oe.loadOntologyFile(this.filePath);
@@ -318,6 +314,8 @@ public class VanillaScoring {
 
         double final_score = e.computeEqualScoring();
         double Pragmatic_score = Pragmatic.getInstance().getUnWeightedScore();
+        double Adaptability_score = Adaptability.getInstance().getUnWeightedScore();
+        double EaseOfUse_score = EaseOfUse.getInstance().getUnWeightedScore();
 
         double Semantic_score = Semantic.getInstance().getUnWeightedScore();
         double clarity = Clarity.getInstance().getUnWeightedScore();
@@ -327,6 +325,7 @@ public class VanillaScoring {
         double Syntactic_score = Syntactic.getInstance().getUnWeightedScore();
         double richness = Richness.getInstance().getUnWeightedScore();
         double lawfulness = Lawfulness.getInstance().getUnWeightedScore();
+        double structure = Structure.getInstance().getUnWeightedScore();
 
         StringBuilder content = new StringBuilder();
         content.append("--------------------\n");
@@ -335,12 +334,15 @@ public class VanillaScoring {
         content.append("Syntactic: " + df.format(Syntactic_score) + "\n");
         content.append("** Richness: " + df.format(richness) + "\n");
         content.append("** Lawfulness: " + df.format(lawfulness) + "\n\n");
+        content.append("** Structure: " + df.format(structure) + "\n\n");
         content.append("Semantic: " + df.format(Semantic_score) + "\n");
         content.append("** Clarity: " + df.format(clarity) + "\n");
         content.append("** Consistency: " + df.format(consistency) + "\n");
         content.append("** Interpretability: " + df.format(interpretability) + "\n\n");
         content.append("Pragmatic: " + df.format(Pragmatic_score) + "\n");
         content.append("** Comprehensiveness: " + df.format(Pragmatic_score) + "\n\n");
+        content.append("** Adaptability: " + df.format(Adaptability_score) + "\n\n");
+        content.append("** Ease of Use: " + df.format(EaseOfUse_score) + "\n\n");
         content.append("**************************************\n");
         content.append("Overall Score: " + df.format(final_score) + "\n");
         content.append("**************************************\n");
@@ -357,12 +359,15 @@ public class VanillaScoring {
                     jsonfile.put("syntactic", df.format(Syntactic_score));
                     jsonfile.put("richness", df.format(richness));
                     jsonfile.put("lawfulness", df.format(lawfulness));
+                    jsonfile.put("structure", df.format(structure));
                     jsonfile.put("semantic", df.format(Semantic_score));
                     jsonfile.put("clarity", df.format(clarity));
                     jsonfile.put("consistency", df.format(consistency));
                     jsonfile.put("interpretability", df.format(interpretability));
                     jsonfile.put("pragmatic", df.format(Pragmatic_score));
                     jsonfile.put("comprehensiveness", df.format(Pragmatic_score));
+                    jsonfile.put("adaptability", df.format(Adaptability_score));
+                    jsonfile.put("ease of use", df.format(EaseOfUse_score));
                     jsonfile.put("overall score", df.format(final_score));
 
                     FileUtils.writeStringToFile(new File(fileOutput.concat(".json")), jsonfile.toString(), Charset.forName("UTF-8"));

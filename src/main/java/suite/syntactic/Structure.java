@@ -19,7 +19,7 @@ public class Structure extends AbstractMetric {
     
     private static Structure INSTANCE = null;
     
-    private Structure(){
+    public Structure(){
         OntologyExtractor oe = OntologyExtractor.getInstance();
         
         num_subclasses =oe.number_of_subclasses;

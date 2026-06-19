@@ -11,11 +11,13 @@ public class Syntactic extends AbstractMetric {
 	
         private Richness richness;
         private Lawfulness lawfulness;
+        private Structure structure;
 	
 	public Syntactic() {
 	
             richness = new Richness ();
             lawfulness = new Lawfulness ();
+            structure = new Structure();
 	}
 	
 	public static Syntactic getInstance() {
@@ -35,12 +37,15 @@ public class Syntactic extends AbstractMetric {
             return lawfulness.getScore();
         }
         
+        public double getStructure(){
+            return structure.getScore();
+        }
         
         public void setEqualWeightedScoring(){
             
-            richness.setWeight(0.50);
-            lawfulness.setWeight(0.50);
-            
+            richness.setWeight(0.333);
+            lawfulness.setWeight(0.333);
+            structure.setWeight(0.333);
         }
         
 	@Override
@@ -52,9 +57,9 @@ public class Syntactic extends AbstractMetric {
                 
                 lawfulness.calculate();
 		
+                structure.calculate();
                 
-                
-		score = (richness.getScore() * richness.getWeight()) + (lawfulness.getScore() * lawfulness.getWeight()) ;
+		score = (richness.getScore() * richness.getWeight()) + (lawfulness.getScore() * lawfulness.getWeight() + (structure.getScore() * structure.getWeight())  ) ;
 		
 		return score;
 	}
