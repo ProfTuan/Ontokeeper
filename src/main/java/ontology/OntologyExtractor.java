@@ -121,6 +121,12 @@ public class OntologyExtractor extends OntologyDataSource {
             return value;
             
         }
+        
+        public long getNumberOfClasses(){
+            long result = ontology.classesInSignature().count();
+            
+            return result;
+        }
 
 	public long getOntologyTotalElements(String filepath) {
 		File file = new File(filepath);
