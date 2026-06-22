@@ -4,6 +4,7 @@
  */
 package ui;
 
+import bioportal.NCBOConfig;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
@@ -20,6 +21,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -141,6 +143,14 @@ public class OntokeeperUI extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         txtOutputFile1 = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        lblNCBOApiKey = new javax.swing.JTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea4 = new javax.swing.JTextArea();
+        btnSaveNCBOAPI = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -161,7 +171,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         jButton2.setText("Output Dir");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                outputDirectoryPerformed(evt);
             }
         });
 
@@ -551,7 +561,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         btSelectTargetOntology1.setText("Select File");
         btSelectTargetOntology1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btSelectTargetOntology1ActionPerformed(evt);
+                btSelectTargetOntologyActionPerformed(evt);
             }
         });
 
@@ -563,7 +573,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         jButton3.setText("Output Dir");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                outputDirectoryPerformed(evt);
             }
         });
 
@@ -627,6 +637,71 @@ public class OntokeeperUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("NCBO BioPortal Batch Scoring", jPanel1);
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel14.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel14.setText("NCBO Bioportal Settings");
+
+        jLabel15.setText("API Key: ");
+
+        jTextArea4.setColumns(20);
+        jTextArea4.setLineWrap(true);
+        jTextArea4.setRows(5);
+        jTextArea4.setText("NCBO Bioportal feature requires a user api key. Visit https://bioportal.bioontology.org to attain an api key by creating a user account. Follow the instructions on how to aquire the key.");
+        jTextArea4.setWrapStyleWord(true);
+        jTextArea4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jScrollPane6.setViewportView(jTextArea4);
+
+        btnSaveNCBOAPI.setText("Save");
+        btnSaveNCBOAPI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveNCBOAPIActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNCBOApiKey, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSaveNCBOAPI)
+                        .addGap(0, 390, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane6)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSaveNCBOAPI)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel15)
+                        .addComponent(lblNCBOApiKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(451, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Settings", jPanel5);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -662,7 +737,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnCalculateActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void outputDirectoryPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputDirectoryPerformed
         // TODO add your handling code here:
         
         FileDialog fd = new FileDialog((Frame) this, "Select file to export results");
@@ -681,7 +756,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         
         
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_outputDirectoryPerformed
 
     private void btSelectTargetOntologyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSelectTargetOntologyActionPerformed
         // TODO add your handling code here:
@@ -838,19 +913,53 @@ public class OntokeeperUI extends javax.swing.JFrame {
 
     private void btnNCBOBatchProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNCBOBatchProcessActionPerformed
         // TODO add your handling code here:
+        
+        //check if the API key is set
+        NCBOConfig nconfig = NCBOConfig.getInstance();
+        if(nconfig.getNCBOAPIKey() == null){
+            
+            JOptionPane.showMessageDialog(null, "You have not have API Key from NCBO Bioportal. Visit the Setting tabe for more information.", "NCBO Bioportal Warning", JOptionPane.INFORMATION_MESSAGE);
+            
+            return;
+        }
+        
+        //process the user's ontology
+        
+        
+        //process the ncbo ontologies
+        
+        
+        
+        
     }//GEN-LAST:event_btnNCBOBatchProcessActionPerformed
 
     private void btnNCBOExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNCBOExportActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNCBOExportActionPerformed
 
-    private void btSelectTargetOntology1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSelectTargetOntology1ActionPerformed
+    private void btnSaveNCBOAPIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveNCBOAPIActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btSelectTargetOntology1ActionPerformed
+        
+        
+        String api_value = this.lblNCBOApiKey.getText();
+        
+        if(api_value.isBlank() || api_value.isEmpty()){
+            
+            JOptionPane.showMessageDialog(null, "Please populate the field with your NCBO BioPortal API Key.", "Settings Warning", JOptionPane.INFORMATION_MESSAGE);
+            
+            return;
+        
+        }
+        NCBOConfig nconfig = NCBOConfig.getInstance();
+        boolean is_successful = nconfig.setNCBOAPIKey(api_value);
+        
+        if(is_successful){
+            JOptionPane.showMessageDialog(null, "Your API Key has been saved. You can now use the NCBO BioPortal feature.", "Settings Message", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        
+    }//GEN-LAST:event_btnSaveNCBOAPIActionPerformed
 
     public void setElementValue(long value){
         
@@ -1107,6 +1216,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JButton btnNCBOBatchProcess;
     private javax.swing.JButton btnNCBOExport;
     private javax.swing.JButton btnOBOValue;
+    private javax.swing.JButton btnSaveNCBOAPI;
     private javax.swing.JButton btnSelectBatchFolder;
     private javax.swing.JCheckBox ckJson;
     private javax.swing.JButton exportResultsButton;
@@ -1118,6 +1228,8 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1129,16 +1241,21 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTextArea jTextArea4;
+    private javax.swing.JTextField lblNCBOApiKey;
     private javax.swing.JLabel lblOverallScore;
     private javax.swing.JLabel lblPragmatic;
     private javax.swing.JLabel lblSemantic;

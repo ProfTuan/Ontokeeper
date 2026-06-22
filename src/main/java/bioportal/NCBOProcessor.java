@@ -23,7 +23,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import models.EqualMetricScoreCard;
 import org.apache.commons.io.FileUtils;
+import ui.MessageDialog;
+import ui.OntokeeperUI;
 
 /**
  *
@@ -41,10 +44,33 @@ public class NCBOProcessor extends Thread {
     private String API_KEY;
     private ObjectMapper mapper = new ObjectMapper();
     
-    public NCBOProcessor(){
+    private OntokeeperUI parent = null;
+    
+     private ArrayList<EqualMetricScoreCard> score_cards;
+     
+     private MessageDialog md = null;
+    
+    public NCBOProcessor(OntokeeperUI parent){
+        
+        this.parent = parent;
+        
         API_KEY = NCBOConfig.getInstance().getNCBOAPIKey();
     }
-     
+
+    @Override
+    public void run() {
+        
+        score_cards = new ArrayList<EqualMetricScoreCard>();
+        
+        md = new MessageDialog(null, false);
+
+        md.setMessage("Calculating scores. Please wait....");
+        md.setLocationRelativeTo(null);
+        
+        
+    }
+    
+    
 
     public void getAllOntologies(){
         
@@ -262,7 +288,7 @@ public class NCBOProcessor extends Thread {
     
     public static void main(String[] args) {
         
-        NCBOProcessor p = new NCBOProcessor();
+        NCBOProcessor p = new NCBOProcessor(null);
         //p.getLabels("https://data.bioontology.org/ontologies/PDUMDV/instances");
         //p.getLabels("https://data.bioontology.org/ontologies/DRANPTO/classes");
         p.getAllOntologies();

@@ -7,6 +7,7 @@ package bioportal;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -54,6 +55,30 @@ public class NCBOConfig {
         
         return INSTANCE;
         
+    }
+    
+    public boolean setNCBOAPIKey(String key_value){
+        boolean result = true;
+        try {
+            
+            
+            api_property.load(new FileInputStream(prop_name));
+            
+            Object setProperty = api_property.setProperty("ncbo", key_value);
+            
+            FileOutputStream out = new FileOutputStream(prop_name);
+            api_property.store(out, null);
+            
+            System.out.println(setProperty.toString());
+            out.close();
+            
+        } catch (FileNotFoundException ex) {
+            System.getLogger(NCBOConfig.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (IOException ex) {
+            System.getLogger(NCBOConfig.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
+        return result;
     }
     
     public String getNCBOAPIKey(){
