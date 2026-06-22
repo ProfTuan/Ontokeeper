@@ -928,7 +928,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         
         //process the ncbo ontologies
         
-        
+        ArrayList<EqualMetricScoreCard> score_cards = null;
         
         
     }//GEN-LAST:event_btnNCBOBatchProcessActionPerformed
