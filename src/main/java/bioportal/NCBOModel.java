@@ -7,6 +7,7 @@ package bioportal;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -22,7 +23,7 @@ import java.util.Set;
  *
  * @author mac
  */
-public class NCBOModel {
+public class NCBOModel implements Serializable{
     
     private String id;
     private String name;
@@ -35,12 +36,14 @@ public class NCBOModel {
     private String class_link;
     private String property_link;
     
+    private static final long serialVersionUID = 1L;
+    
     public static void main(String[] args) {
         
-        NCBOModel nm = new NCBOModel();
-        String extracted = nm.extractLabelFromId("http://purl.obolibrary.org/obo/pdumdv/granular_stage");
+        //NCBOModel nm = new NCBOModel();
+        //String extracted = nm.extractLabelFromId("http://purl.obolibrary.org/obo/pdumdv/granular_stage");
         
-        System.out.println(extracted);
+        //System.out.println(extracted);
         
     }
     
@@ -87,7 +90,7 @@ public class NCBOModel {
         try {
             
             String rest_call = id + "/metrics?" + authorization;
-            //System.out.println(rest_call);
+    
             URL url = new URI(rest_call).toURL();
             
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -115,9 +118,7 @@ public class NCBOModel {
             
         } catch (MalformedURLException ex) {
             System.getLogger(NCBOModel.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        } catch (URISyntaxException ex) {
-            System.getLogger(NCBOModel.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        } catch (IOException ex) {
+        } catch (URISyntaxException | IOException ex) {
             System.getLogger(NCBOModel.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
         
@@ -158,23 +159,18 @@ public class NCBOModel {
         if(idx>0){
             sb.append(uri.substring(idx));
         }
-        
-        
-        
+
         return sb.toString();
     }
     
     private void imputeLabelInformation(){
-        
- 
+
         deriveLabelFromURI(properties);
         
         deriveLabelFromURI(classes);
         
         deriveLabelFromURI(instances);
-        
-       
-        
+
     }
     
     private void deriveLabelFromURI(Map<String,String> collection){
