@@ -44,7 +44,7 @@ public class GitHubScore {
             System.out.println("Specificy the file path");
         }
         
-        GitHubScore gs = new GitHubScore("/Users/mac/Documents/GitHub/NCF/nco.owl");
+        GitHubScore gs = new GitHubScore(args[0]);
         gs.runScoring();
         gs.exportJSONResult();
     }
