@@ -43,7 +43,7 @@ public class Adaptability extends AbstractMetric {
     
     @Override
     public double calculate() {
-        double score = 0.0000;
+        //double score = 0.0000;
         
         OntologyExtractor oe = OntologyExtractor.getInstance();
         
@@ -53,7 +53,12 @@ public class Adaptability extends AbstractMetric {
         average_ancestors = oe.average_ancestor_for_leaves;
         deepest_leaf =oe.deepest_leaf;
         
+    
+        
         score = ((number_leaves /  number_classes)*0.50) + ((average_ancestors/deepest_leaf)*0.50);
+        
+        if(score>1) score = 1;
+        //System.out.println
         
         return score;
     }

@@ -262,6 +262,10 @@ public class NCBOModel implements Serializable{
         this.property_link = property_link;
     }
     
+    public void serializeData(){
+        
+    }
+    
     @Override
     public String toString(){
         

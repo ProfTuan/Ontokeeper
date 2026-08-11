@@ -165,4 +165,15 @@
                 <argLine>--enable-preview</argLine>
             </properties>
         </action>
+        <action>
+            <actionName>CUSTOM-build-all</actionName>
+            <displayName>build-all</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>package</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>build-all</activatedProfile>
+            </activatedProfiles>
+        </action>
     </actions>

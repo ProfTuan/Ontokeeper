@@ -39,29 +39,61 @@
           <target>21</target>
         </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.6.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <shadedArtifactAttached>true</shadedArtifactAttached>
-          <transformers>
-            <transformer>
-              <mainClass>${main.class}</mainClass>
-            </transformer>
-          </transformers>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>build-all</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>${maven-shade-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>ontokeeper-ui</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>shade</goal>
+                </goals>
+                <configuration>
+                  <shadedArtifactAttached>true</shadedArtifactAttached>
+                  <shadedClassifierName>ui-mode</shadedClassifierName>
+                  <transformers>
+                    <transformer>
+                      <mainClass>${main.class}</mainClass>
+                    </transformer>
+                  </transformers>
+                  <finalName>ontokeeper-ui</finalName>
+                </configuration>
+              </execution>
+              <execution>
+                <id>github-deploy</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>shade</goal>
+                </goals>
+                <configuration>
+                  <shadedArtifactAttached>true</shadedArtifactAttached>
+                  <shadedClassifierName>github-version</shadedClassifierName>
+                  <transformers>
+                    <transformer>
+                      <mainClass>${github.class}</mainClass>
+                    </transformer>
+                  </transformers>
+                  <finalName>github-deploy</finalName>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <properties>
     <main.class>suite.ExecutableApp</main.class>
+    <github.class>suite.GitHubScore</github.class>
+    <maven-shade-plugin.version>3.5.3</maven-shade-plugin.version>
     <jdk.version>21</jdk.version>
   </properties>
 </project>

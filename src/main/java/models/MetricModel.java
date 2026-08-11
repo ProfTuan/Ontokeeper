@@ -4,6 +4,7 @@
  */
 package models;
 
+import java.io.Serializable;
 import org.json.JSONObject;
 import suite.pragmatic.Pragmatic;
 import suite.semantic.Semantic;
@@ -13,7 +14,9 @@ import suite.syntactic.Syntactic;
  *
  * @author mac
  */
-public abstract class MetricModel {
+public abstract class MetricModel implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     
     private String id = "";
     
@@ -56,12 +59,15 @@ public abstract class MetricModel {
         string_builder.append("SYNTACTIC \t" + syntactic.getScore() + "\n");
         string_builder.append("\tRichness: \t" + syntactic.getRichness() + "\n");
         string_builder.append("\tLawfulness: \t " + syntactic.getLawfulness() + "\n");
+        string_builder.append("\tStructure: \t " + syntactic.getStructure()+ "\n");
         string_builder.append("SEMANTIC \t" + semantic.getScore() + "\n");
         string_builder.append("\tClarity: \t " + semantic.getClarity() + "\n");
         string_builder.append("\tConsistency: \t " + semantic.getConsistency() + "\n");
         string_builder.append("\tInterpertability: \t " + semantic.getInterpertability() + "\n");
         string_builder.append("Pragmatic: \t " + pragmatic.getScore() + "\n");
-        string_builder.append("\tComprehensiveness : \t " + pragmatic.getScore() + "\n" );
+        string_builder.append("\tAdaptability : \t " + pragmatic.getAdaptablity()+ "\n" );
+        string_builder.append("\tEase of Use : \t " + pragmatic.getEaseOfUse()+ "\n" );
+        string_builder.append("\tComprehensiveness : \t " + pragmatic.getComprehensiveness()+ "\n" );
         string_builder.append("*** Social is not supported (yet)\n");
         string_builder.append("\n----------------------------\n");
         string_builder.append("OVERALL SCORE: \t" + this.getOverallScore());
@@ -77,12 +83,15 @@ public abstract class MetricModel {
         jsonfile.put("syntactic", syntactic.getScore());
         jsonfile.put("richness", syntactic.getRichness());
         jsonfile.put("lawfulness", syntactic.getLawfulness());
+        jsonfile.put("structure", syntactic.getStructure());
         jsonfile.put("semantic", semantic.getScore());
         jsonfile.put("clarity", semantic.getClarity());
         jsonfile.put("consistency", semantic.getConsistency());
         jsonfile.put("interpretability", semantic.getInterpertability());
         jsonfile.put("pragmatic", pragmatic.getScore());
-        jsonfile.put("comprehensiveness", pragmatic.getScore());
+        jsonfile.put("adaptability", pragmatic.getAdaptablity());
+        jsonfile.put("ease of use", pragmatic.getEaseOfUse());
+        jsonfile.put("comprehensiveness", pragmatic.getComprehensiveness());
         jsonfile.put("overall score", this.getOverallScore());
         
         return jsonfile;

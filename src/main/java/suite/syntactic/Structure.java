@@ -45,6 +45,7 @@ public class Structure extends AbstractMetric {
         
         score = 0.000;
         
+        
         score = num_subclasses / num_classes;
         
         return score;

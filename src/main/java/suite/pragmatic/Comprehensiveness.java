@@ -43,7 +43,14 @@ public class Comprehensiveness extends AbstractMetric{
                 number_of_elements = (double)oe.number_of_elements;
                 average_elements = (double)ConfigFlags.getInstance().getAverageElements();
                 
-                score = number_of_elements/ average_elements;
+                if(ConfigFlags.getInstance().isSingleScoreMode()){
+                    score = number_of_elements/ (average_elements + number_of_elements);
+                }
+                else{
+                    score = number_of_elements/ average_elements;
+                }
+                
+                
 		
 		//score = (double)oe.number_of_elements/(double)ConfigFlags.getInstance().getAverageElements();
 		

@@ -22,7 +22,9 @@ public class EqualMetricScoreCard extends MetricModel {
         //id  = OntologyExtractor.getInstance().getOntologyName();
     }
 
-    
+    public double getStructureScore(){
+        return syntactic.getStructure();
+    }
     
     public double getRichnessScore(){
         
@@ -46,6 +48,18 @@ public class EqualMetricScoreCard extends MetricModel {
     
     public double getInterpertabilityScore(){
         return semantic.getInterpertability();
+    }
+    
+    public double getAdaptabilityScore(){
+        return pragmatic.getAdaptablity();
+    }
+    
+    public double getEaseOfUseScore(){
+        return pragmatic.getEaseOfUse();
+    }
+    
+    public double getComprehensivenessCore(){
+        return pragmatic.getComprehensiveness();
     }
     
     public double getOverallScore(){

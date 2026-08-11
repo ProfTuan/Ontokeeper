@@ -1100,30 +1100,43 @@ public class OntokeeperUI extends javax.swing.JFrame {
         cell.setCellStyle(header_style);
         
         cell = header.createCell(4);
+        cell.setCellValue("Structure");
+        cell.setCellStyle(header_style);
+        
+        
+        cell = header.createCell(5);
         cell.setCellValue("SEMANTIC");
         cell.setCellStyle(header_style);
         
-        cell = header.createCell(5);
+        cell = header.createCell(6);
         cell.setCellValue("Clarity");
         cell.setCellStyle(header_style);
         
-        cell = header.createCell(6);
+        cell = header.createCell(7);
         cell.setCellValue("Consistency");
         cell.setCellStyle(header_style);
         
-        cell = header.createCell(7);
+        cell = header.createCell(8);
         cell.setCellValue("Interpertability");
         cell.setCellStyle(header_style);
         
-        cell = header.createCell(8);
+        cell = header.createCell(9);
         cell.setCellValue("PRAGMATIC");
         cell.setCellStyle(header_style);
         
-        cell = header.createCell(9);
+        cell = header.createCell(10);
         cell.setCellValue("Comprehensiveness");
         cell.setCellStyle(header_style);
         
-        cell = header.createCell(10);
+        cell = header.createCell(11);
+        cell.setCellValue("Adaptibility");
+        cell.setCellStyle(header_style);
+        
+        cell = header.createCell(12);
+        cell.setCellValue("Ease of Use");
+        cell.setCellStyle(header_style);
+        
+        cell = header.createCell(13);
         cell.setCellValue("OVERALL SCORE");
         cell.setCellStyle(header_style);
         

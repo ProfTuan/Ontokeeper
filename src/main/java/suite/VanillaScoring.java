@@ -52,6 +52,12 @@ public class VanillaScoring {
     public VanillaScoring() {
         cf = ConfigFlags.getInstance();
     }
+    
+    public VanillaScoring(boolean isSingleScoring){
+        cf = ConfigFlags.getInstance();
+        
+        cf.setSingleScoreMode(isSingleScoring);
+    }
 
     public void configure() {
 

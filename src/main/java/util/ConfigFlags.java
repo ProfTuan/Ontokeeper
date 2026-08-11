@@ -22,6 +22,8 @@ public class ConfigFlags {
         private String location_ontology_file = "";
 	
 	private String wn_dict = "";
+        
+        private boolean singleScoring = false;
 
 	private ConfigFlags() {
 
@@ -149,5 +151,13 @@ public class ConfigFlags {
 		System.out.println(ConfigFlags.getInstance().getWordNetDict());
 
 	}
+
+    public void setSingleScoreMode(boolean singleScoring) {
+        this.singleScoring = singleScoring;
+    }
+    
+    public boolean isSingleScoreMode(){
+        return singleScoring;
+    }
 
 }

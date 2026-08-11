@@ -226,14 +226,18 @@ public class OntologyExtractor extends OntologyDataSource {
                 
 		this.number_of_elements = (num_classes + num_dp + num_op + num_int);
                 
-                this.collectClassMetrics();
-                this.collectLeafMetrics();
+                this.number_of_subclasses = this.collectClassMetrics();
+                this.number_of_leaves = this.collectLeafMetrics();
+                
+                collectAverageLeafAncestorMetrics();
+                
+                this.number_of_annotations = this.collectAnnotationMetrics();
 	}
         
-        public void collectClassMetrics(){
+        public long collectClassMetrics(){
             //number of subclasses
             
-            int count_subclass =0;
+            long count_subclass =0;
             for(var a : ontology.getAxioms(AxiomType.SUBCLASS_OF)){
                 
                 if(a.getSubClass() instanceof OWLClass){
@@ -242,17 +246,17 @@ public class OntologyExtractor extends OntologyDataSource {
                 
             }
             //System.out.println(count_subclass);
-            this.number_of_subclasses = count_subclass;
-            System.out.println(this.classList.size());
+            return count_subclass;
+            //System.out.println(this.classList.size());
         }
         
-        public void collectLeafMetrics(){
+        public long collectLeafMetrics(){
             //credit: https://stackoverflow.com/questions/58436546/retrieve-just-root-classes-classes-with-no-asserted-subclassof-parent-class
             //Set<OWLClass> collect = ontology.classesInSignature().filter(c->ontology.subClassAxiomsForSuperClass(c).count()==0).collect(Collectors.toSet());
             long count = ontology.classesInSignature().filter(c->ontology.subClassAxiomsForSuperClass(c).count()==0).count();
             
-            this.number_of_leaves = count;
-            System.out.println(count);
+            return count;
+            //System.out.println(count);
         }
         
         public void collectAverageLeafAncestorMetrics(){
@@ -291,8 +295,8 @@ public class OntologyExtractor extends OntologyDataSource {
             //collect.stream().filter(a->ontology.subClassAxiomsForSuperClass(a).filter(predicate))
         }
         
-        public void collectAnnotationMetrics(){
-            this.number_of_annotations = ontology.annotations().count();
+        public long collectAnnotationMetrics(){
+             return ontology.annotations().count();
         }
 
 	public int getProfileViolationsFromOntology(OWLOntology o) {

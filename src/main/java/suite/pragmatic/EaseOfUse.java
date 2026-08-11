@@ -40,7 +40,7 @@ public class EaseOfUse extends AbstractMetric {
     @Override
     public double calculate() {
         
-        double score = 0.000;
+        //double score = 0.000;
         
         OntologyExtractor oe = OntologyExtractor.getInstance();
         number_elements = oe.number_of_elements;
@@ -48,6 +48,7 @@ public class EaseOfUse extends AbstractMetric {
         
         score = number_annotations / number_elements;
         
+  
         if(score > 1) score = 1.000;
         
         return score;

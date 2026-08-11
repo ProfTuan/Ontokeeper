@@ -37,15 +37,15 @@ public class Pragmatic extends AbstractMetric{
             e.setWeight(0.333);
         }
         
-        public double Comprehensiveness(){
+        public double getComprehensiveness(){
             return c.getScore();
         }
         
-        public double Adaptablity(){
+        public double getAdaptablity(){
             return a.getScore();
         }
         
-        public double EaseOfUse(){
+        public double getEaseOfUse(){
             return e.getScore();
         }
 
