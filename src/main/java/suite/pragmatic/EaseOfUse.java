@@ -50,10 +50,16 @@ public class EaseOfUse extends AbstractMetric {
         System.out.println("\t\tAnnotations: " + number_annotations);
         System.out.println("\t\ttNumber of elements: " + number_elements);
         
-        score = 1-(1/(number_annotations / number_elements));
+        if(number_annotations != 0 || number_elements !=0){
+            score = 1-(1/(number_annotations / number_elements));
+        }
+        else{
+            score = 0;
+        }
+        
         
   
-        //if(score > 1) score = 1.000;
+        if(score < 0) score = 0;
         
         return score;
     }
