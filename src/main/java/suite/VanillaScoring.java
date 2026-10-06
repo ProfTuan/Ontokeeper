@@ -289,7 +289,8 @@ public class VanillaScoring {
                         //oe.refresh();
                         oe.loadOntologyFile(this.filePath);
                         
-                        EqualMetricScoreCard score_card = score_factory.getEqualWeightedScoreCard();
+                        //EqualMetricScoreCard score_card = score_factory.getEqualWeightedScoreCard();
+                        EqualMetricScoreCard score_card = new ScoreCardFactory().getEqualWeightedScoreCard();
                         score_card.setOntologyName(this.filePath);
                         score_cards.add(score_card);
                         

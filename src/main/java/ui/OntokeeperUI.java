@@ -5,12 +5,16 @@
 package ui;
 
 import bioportal.NCBOConfig;
+import bioportal.NCBOProcessor;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.FileDialog;
 import java.awt.Frame;
+import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,9 +23,12 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -54,6 +61,8 @@ public class OntokeeperUI extends javax.swing.JFrame {
     
     private ArrayList<EqualMetricScoreCard> score_cards = null;
     
+    private Multimap<String, String> slices = null;
+    
     ChartPanel chartPanel = null;
     
     /**
@@ -68,8 +77,29 @@ public class OntokeeperUI extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         
+        //get the slices from NCBO BioPortal
+        
+        slices = ArrayListMultimap.create();
+        NCBOProcessor populate_slices = new   NCBOProcessor(this);
+        populate_slices.initFetchForSlices();
+        populate_slices.start();
+        
+        
+        //slices = populate_slices.getSlices();
+        
+        
+        
     }
     
+    public void addSlices(Multimap<String, String> _slices){
+        slices.putAll(_slices);
+        this.cbSlices.removeAllItems();
+        for(var s : slices.keySet()){
+            System.out.println(s.toString());
+            //this.cbSlices.getModel().setSelectedItem(s.toString());
+            this.cbSlices.addItem(s.toString());
+        }
+    }
 
     public void setScoreCards(ArrayList<EqualMetricScoreCard> score_cards){
         this.score_cards = score_cards;
@@ -151,6 +181,15 @@ public class OntokeeperUI extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
         btnSaveNCBOAPI = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        cbSlices = new javax.swing.JComboBox<>();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        btnAddSliceOntology = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        listSliceOntologies = new javax.swing.JList<>();
+        btnClearSliceList = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -659,6 +698,37 @@ public class OntokeeperUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel16.setText("Slice Selection or Creation:");
+
+        jLabel17.setText("Choose a pre-existing slice from NCBO:");
+
+        cbSlices.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbSlices.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSlicesActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setText("or");
+
+        jLabel19.setText("Create your own custom slice by adding the NCBO unique link identifier");
+
+        btnAddSliceOntology.setText("Add");
+        btnAddSliceOntology.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSliceOntologyActionPerformed(evt);
+            }
+        });
+
+        jScrollPane7.setViewportView(listSliceOntologies);
+
+        btnClearSliceList.setText("Clear");
+        btnClearSliceList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearSliceListActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -667,17 +737,36 @@ public class OntokeeperUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNCBOApiKey, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSaveNCBOAPI)
-                        .addGap(0, 390, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane6)
                             .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addGap(102, 102, 102)
+                                .addComponent(jLabel18)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblNCBOApiKey, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnSaveNCBOAPI))
+                                    .addComponent(jLabel16)
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(cbSlices, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(51, 51, 51)
+                                        .addComponent(btnAddSliceOntology)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnClearSliceList)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(6, 6, 6))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator2)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
@@ -695,9 +784,23 @@ public class OntokeeperUI extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel15)
                         .addComponent(lblNCBOApiKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(21, 21, 21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel19))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbSlices, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddSliceOntology)
+                    .addComponent(btnClearSliceList))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(451, Short.MAX_VALUE))
+                .addContainerGap(248, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Settings", jPanel5);
@@ -847,7 +950,6 @@ public class OntokeeperUI extends javax.swing.JFrame {
         batch_task.start();
         
         
-             
         
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -960,6 +1062,39 @@ public class OntokeeperUI extends javax.swing.JFrame {
 
         
     }//GEN-LAST:event_btnSaveNCBOAPIActionPerformed
+
+    private void cbSlicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSlicesActionPerformed
+        // TODO add your handling code here:
+        
+        if(this.cbSlices.getSelectedIndex()>-1){
+            String selection = (String)cbSlices.getSelectedItem();
+            
+            Collection<String> slice_ontologies = this.slices.get(selection);
+            
+            DefaultListModel list_ontologies = new DefaultListModel();
+            for(var so : slice_ontologies){
+                list_ontologies.addElement(so.toString());
+            }
+            this.listSliceOntologies.setModel(list_ontologies);
+            
+        }
+        
+    }//GEN-LAST:event_cbSlicesActionPerformed
+
+    private void btnClearSliceListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearSliceListActionPerformed
+        // TODO add your handling code here:
+        
+        //DefaultListModel list_ontologies = new Default
+        DefaultListModel listModel =(DefaultListModel)listSliceOntologies.getModel();
+        listModel.removeAllElements();
+    }//GEN-LAST:event_btnClearSliceListActionPerformed
+
+    private void btnAddSliceOntologyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSliceOntologyActionPerformed
+        // TODO add your handling code here:
+        AddNCBOOntologyDialog d = new AddNCBOOntologyDialog(this, true);
+        d.setVisible(true);
+        
+    }//GEN-LAST:event_btnAddSliceOntologyActionPerformed
 
     public void setElementValue(long value){
         
@@ -1224,13 +1359,16 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JTable batchTable;
     private javax.swing.JButton btSelectTargetOntology;
     private javax.swing.JButton btSelectTargetOntology1;
+    private javax.swing.JButton btnAddSliceOntology;
     private javax.swing.JButton btnAvgElements;
     private javax.swing.JButton btnCalculate;
+    private javax.swing.JButton btnClearSliceList;
     private javax.swing.JButton btnNCBOBatchProcess;
     private javax.swing.JButton btnNCBOExport;
     private javax.swing.JButton btnOBOValue;
     private javax.swing.JButton btnSaveNCBOAPI;
     private javax.swing.JButton btnSelectBatchFolder;
+    private javax.swing.JComboBox<String> cbSlices;
     private javax.swing.JCheckBox ckJson;
     private javax.swing.JButton exportResultsButton;
     private javax.swing.JButton jButton2;
@@ -1243,6 +1381,10 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1261,6 +1403,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1274,6 +1417,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblSemantic;
     private javax.swing.JLabel lblSocial;
     private javax.swing.JLabel lblSyntactic1;
+    private javax.swing.JList<String> listSliceOntologies;
     private javax.swing.JTable ncboBatchTable;
     private javax.swing.JPanel pragmaticPanel;
     private javax.swing.JPanel semanticPanel;
@@ -1298,18 +1442,25 @@ public class OntokeeperUI extends javax.swing.JFrame {
         score_cards.forEach(card->{
             
             
-            Object[] o = new Object[11];
+            Object[] o = new Object[14];
             o[0] = card.getOntologyId();
+            
             o[1] = card.getSyntacticScore();
             o[2] = card.getRichnessScore();
             o[3] = card.getLawfulnessScore();
-            o[4] = card.getSemanticScore();
-            o[5] = card.getClarityScore();
-            o[6] = card.getConsistencyScore();
-            o[7] = card.getInterpertabilityScore();
-            o[8] = card.getPragmaticScore();
+            o[4] = card.getStructureScore();
+            
+            o[5] = card.getSemanticScore();
+            o[6] = card.getClarityScore();
+            o[7] = card.getConsistencyScore();
+            o[8] = card.getInterpertabilityScore();
+            
             o[9] = card.getPragmaticScore();
-            o[10] = card.getOverallScore();
+            o[10] = card.getComprehensivenessCore();
+            o[11] = card.getAdaptabilityScore();
+            o[12] = card.getEaseOfUseScore();
+            
+            o[13] = card.getOverallScore();
             
         
             
@@ -1318,6 +1469,13 @@ public class OntokeeperUI extends javax.swing.JFrame {
         });
         
        
+        
+    }
+
+    void insertNCBOOntology(String ncbo_id) {
+        DefaultListModel model = (DefaultListModel)this.listSliceOntologies.getModel();
+        //model.addRow(ncbo_id);
+        model.addElement(ncbo_id);
         
     }
 }

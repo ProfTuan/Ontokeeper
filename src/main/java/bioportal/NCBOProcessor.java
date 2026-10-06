@@ -6,6 +6,8 @@ package bioportal;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.File;
@@ -52,17 +54,78 @@ public class NCBOProcessor extends Thread {
      private ArrayList<EqualMetricScoreCard> score_cards;
      
      private MessageDialog md = null;
+     
+    private Multimap<String,String> slices;
+    
+    private boolean for_slices_only = false;
     
     public NCBOProcessor(OntokeeperUI parent){
         
+        init(parent);
+    }
+    
+    public void initFetchForSlices(){
+     
+        for_slices_only = true;
+    }
+    
+    private void init(OntokeeperUI parent){
         this.parent = parent;
         
         API_KEY = NCBOConfig.getInstance().getNCBOAPIKey();
     }
 
+    
+    public Multimap<String, String> getSlices(){
+        
+        
+        
+        return slices;
+    }
+    
+    
     @Override
     public void run() {
+
+        md = new MessageDialog(parent, false);
+
         
+        md.setLocationRelativeTo(null);
+        try {
+
+            if (for_slices_only==true) {
+                md.setMessage("Fetching slice data from NCBO BioPortal....");
+                score_cards = new ArrayList<EqualMetricScoreCard>();
+
+                
+
+                md.setVisible(true);
+
+                fetchBySlices();
+
+                parent.addSlices(slices);
+                
+                //reset
+                
+            } 
+            else {
+                asynchronus_run_interface();
+            }
+       
+        } 
+        finally 
+        {
+            
+            
+            md.dispose();
+        }
+
+        for_slices_only = false;
+    }
+    
+   
+    
+    private void asynchronus_run_interface(){
         score_cards = new ArrayList<EqualMetricScoreCard>();
         
         md = new MessageDialog(null, false);
@@ -72,8 +135,59 @@ public class NCBOProcessor extends Thread {
         
         md.setVisible(true);
         
-        //fetch();
+        fetch();
     }
+    
+    private void fetchBySlices(){
+        
+        slices = ArrayListMultimap.create();
+        
+        String url_slices = "https://data.bioontology.org/slices";
+        
+        url_slices  = url_slices.concat("?apikey=" +API_KEY);
+        
+        try {
+            URL url = new URI(url_slices).toURL();
+            
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            
+            conn.setRequestMethod("POST");
+            
+            conn.connect();
+
+            JsonNode jn = mapper.readTree(url.openStream());
+            
+            for(JsonNode j: jn){
+                //System.out.println(j.get("ontologies").size());
+                String id_slice = j.get("id").toPrettyString();
+                
+                //System.out.println(id_slice);
+                
+                
+                
+                for(JsonNode x :j.get("ontologies")){
+                  //System.out.println("\t"+x.toPrettyString());  
+                  slices.put(id_slice, x.toPrettyString());
+                }
+                
+                //System.out.println("\n\n\n\n");
+            }
+            
+            //System.out.println(jn);
+            
+        } catch (URISyntaxException ex) {
+            System.getLogger(NCBOProcessor.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (MalformedURLException ex) {
+            System.getLogger(NCBOProcessor.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (IOException ex) {
+            System.getLogger(NCBOProcessor.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
+        System.out.println(slices.size());
+       
+    }
+    
+    
     
     private void fetch(){
         ontologies = new HashSet<>();
@@ -475,7 +589,11 @@ public class NCBOProcessor extends Thread {
         //p.getAllOntologies();
         //p.printLabelResults();
         //p.testSerialization();
-        p.fetch();
+        
+        //workable example
+        //p.fetch();
+        
+        p.fetchBySlices();
     }
 
   

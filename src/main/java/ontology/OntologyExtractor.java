@@ -35,6 +35,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
@@ -296,7 +298,34 @@ public class OntologyExtractor extends OntologyDataSource {
         }
         
         public long collectAnnotationMetrics(){
-             return ontology.annotations().count();
+            long count = 0;
+            //ontology.annotations().forEach(System.out::println);
+            //EntitySearcher.getAnnotations(e, ontology)
+             //return ontology.annotations().count();
+            Set<OWLClass> owl_classes = this.ontology.getClassesInSignature().stream().collect(Collectors.toSet());
+            for(var oc : owl_classes){
+                count +=EntitySearcher.getAnnotations(oc, ontology).count();
+            }
+            
+            Set<OWLObjectProperty> o_properties = this.ontology.getObjectPropertiesInSignature().stream().collect(Collectors.toSet());
+            for(var op : o_properties){
+                count += EntitySearcher.getAnnotations(op, ontology).count();
+            }
+            
+            Set<OWLDataProperty> d_properties = this.ontology.getDataPropertiesInSignature().stream().collect(Collectors.toSet());
+            for(var dp : d_properties){
+                count += EntitySearcher.getAnnotations(dp, ontology).count();
+            }
+            
+            Set<OWLNamedIndividual> individuals = this.ontology.getIndividualsInSignature().stream().collect(Collectors.toSet());
+            for(var i : individuals){
+                count += EntitySearcher.getAnnotations(i, ontology).count();
+            }
+
+            //System.out.println("\t\tAnnotations short cut: " + this.ontology.annotationPropertiesInSignature().count());
+            
+             //System.out.println("\tAnnotations: " + count);
+             return count;
         }
 
 	public int getProfileViolationsFromOntology(OWLOntology o) {

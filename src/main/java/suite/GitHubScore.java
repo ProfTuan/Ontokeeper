@@ -33,8 +33,6 @@ public class GitHubScore {
     
     public JSONObject exportJSONResult(){
         
-        System.out.println(score_card.toString());
-        
         return score_card.toJson();
     }
     

@@ -43,10 +43,13 @@ public class Structure extends AbstractMetric {
         num_subclasses =oe.number_of_subclasses;
         num_classes = oe.getNumberOfClasses();
         
+        System.out.println("Subclass Number: " + num_subclasses);
+        System.out.println("Number of classes: " + num_classes);
         score = 0.000;
         
         
-        score = num_subclasses / num_classes;
+        //score = num_subclasses / num_classes; original as described in the paper
+        score = 1 - (1/(num_subclasses/num_classes));
         
         return score;
         

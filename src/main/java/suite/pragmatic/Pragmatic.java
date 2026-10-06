@@ -32,9 +32,9 @@ public class Pragmatic extends AbstractMetric{
         public void setEqualWeightedScoring(){
             //c.calculate(1);
             
-            c.setWeight(0.333);
-            a.setWeight(0.333);
-            e.setWeight(0.333);
+            c.setWeight(0.334);
+            a.setWeight(0.334);
+            e.setWeight(0.334);
         }
         
         public double getComprehensiveness(){

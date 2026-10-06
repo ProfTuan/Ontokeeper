@@ -14,6 +14,7 @@ import ontology.OntologyExtractor;
 public class EaseOfUse extends AbstractMetric {
 //proportion of annotations to axioms (any annotations)
 // if the score is above 0.99, normalize to 1
+//     
     
     private double number_annotations;
     private double number_elements;
@@ -46,10 +47,13 @@ public class EaseOfUse extends AbstractMetric {
         number_elements = oe.number_of_elements;
         number_annotations =oe.number_of_annotations;
         
-        score = number_annotations / number_elements;
+        System.out.println("\t\tAnnotations: " + number_annotations);
+        System.out.println("\t\ttNumber of elements: " + number_elements);
+        
+        score = 1-(1/(number_annotations / number_elements));
         
   
-        if(score > 1) score = 1.000;
+        //if(score > 1) score = 1.000;
         
         return score;
     }
