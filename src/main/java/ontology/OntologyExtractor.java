@@ -1,7 +1,6 @@
 package ontology;
 
 import java.io.File;
-import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,7 +36,6 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
@@ -304,7 +302,7 @@ public class OntologyExtractor extends OntologyDataSource {
              //return ontology.annotations().count();
             Set<OWLClass> owl_classes = this.ontology.getClassesInSignature().stream().collect(Collectors.toSet());
             for(var oc : owl_classes){
-                count +=EntitySearcher.getAnnotations(oc, ontology).count();
+                count +=EntitySearcher.getAnnotations(oc,ontology).count();
             }
             
             Set<OWLObjectProperty> o_properties = this.ontology.getObjectPropertiesInSignature().stream().collect(Collectors.toSet());
