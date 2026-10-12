@@ -18,9 +18,10 @@ public class EqualMetricScoreCard extends MetricModel {
     
     public EqualMetricScoreCard(){
         
+        id  = OntologyExtractor.getInstance().getOntologyIdentifier();
         initEqualWeightScoring();
         calculateSubScores();
-        id  = OntologyExtractor.getInstance().getOntologyIdentifier();
+        
     }
 
     public double getStructureScore(){
