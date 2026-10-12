@@ -37,6 +37,7 @@ import org.joda.time.DateTimeZone;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
@@ -237,6 +238,7 @@ public class OntologyExtractor extends OntologyDataSource {
                 this.number_of_annotations = this.collectAnnotationMetrics();
                 
                 this.recordIRIsFromLibrary(); //for social score
+                this.tallyMatches();
 	}
         
         public long collectClassMetrics(){
@@ -696,15 +698,49 @@ public class OntologyExtractor extends OntologyDataSource {
 	}
         
         public void recordIRIsFromLibrary(){
+            
+            System.out.println("From recordIRIsFromLibrary.");
             //this.owl_manager
             IRI ontology_iri = this.ontology.getOntologyID().getOntologyIRI().orElse(null);
             
-            AuthorityHelper.getInstance().recordIRI(ontology_iri);
+            /*
+            OWLDocumentFormat of = this.owl_manager.getOntologyFormat(ontology);
+            if(of.isPrefixOWLDocumentFormat()){
+                
+                String defaultPrefix = of.asPrefixOWLDocumentFormat().getDefaultPrefix();
+                
+                
+                Map<String, String> pm = of.asPrefixOWLDocumentFormat().getPrefixName2PrefixMap();
+                
+                
+                for(var m : pm.entrySet()){
+                    System.out.println("\t" + m.getKey());
+                    System.out.println("\t\t" + m.getValue());
+                }
+
+            }*/
+            
+            //String iri_string = ontology_iri.toString(); System.out.println("Before: " + iri_string);
+            //int b = iri_string.lastIndexOf("/");
+
+            //System.out.println("IRI: " + iri_string.toString().substring(b + 1));
+
+            //iri_string = iri_string.toString().substring(b + 1);
+            //System.out.println("After: " + iri_string);
+            /*
+            if (iri_string.contains(".") == true) {
+                //System.out.println("last index of period: " + iri_string.lastIndexOf("."));
+                iri_string = iri_string.substring(0, iri_string.lastIndexOf("."));
+                //System.out.println("\t" + iri_string);
+            }
+            */
+            String iri_string = ontology_iri.toString();
+            AuthorityHelper.getInstance().recordIRI(iri_string);
         }
         
         public void tallyMatches(){
             
-            
+            System.out.println("tallyMatches activated.");
          
             AuthorityHelper ah = AuthorityHelper.getInstance();
             

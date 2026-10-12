@@ -13,6 +13,7 @@ import static scoring.process.OBOElementProcess.SP_PROPERTY_ENTITY_LIMIT;
 import static scoring.process.OBOElementProcess.SP_TOTAL_ENTITY_SIZE_LIMIT;
 import suite.GenerateLibraryElementsData;
 import suite.VanillaScoring;
+import ui.AuthorityHelper;
 import ui.MessageDialog;
 import ui.OntokeeperUI;
 

@@ -473,7 +473,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
                 "File", "SYNTACTIC", "Richness", "Lawfulness", "Structure", "SEMANTIC", "Clarity", "Consitency", "Interpretability", "PRAGMATIC", "Comprehensivness", "Adaptability", "Ease of Use", "OVERALL SCORE"
             }
         ));
-        batchTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        batchTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         batchTable.setShowGrid(true);
         jScrollPane2.setViewportView(batchTable);
 

@@ -35,6 +35,7 @@ import suite.syntactic.Lawfulness;
 import suite.syntactic.Richness;
 import suite.syntactic.Structure;
 import suite.syntactic.Syntactic;
+import ui.AuthorityHelper;
 import util.ConfigFlags;
 
 public class VanillaScoring {
@@ -51,6 +52,7 @@ public class VanillaScoring {
 
     public VanillaScoring() {
         cf = ConfigFlags.getInstance();
+        
     }
     
     public VanillaScoring(boolean isSingleScoring){

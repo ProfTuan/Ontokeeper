@@ -4,16 +4,9 @@
  */
 package ui;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  *
@@ -29,7 +22,7 @@ public class AuthorityHelper {
     alternate: sparql querys
     */
     
-    private Map<IRI, Long> ontologies;
+    private Map<String, Long> ontologies;
     
     private long total_links = 0;
     
@@ -38,49 +31,83 @@ public class AuthorityHelper {
         ontologies = new HashMap<>();
     }
     
-    public Map<IRI, Long> getOntologiesList(){
+    public Map<String, Long> getOntologiesList(){
         return ontologies;
     }
     
     public void tallyMatches(IRI iri){
         
+        String iri_string = iri.toString();
+        
+        for(var o :ontologies.entrySet()){
+            if(iri_string.contains(o.getKey().toString())){
+                Long value = o.getValue();
+                value = Long.valueOf(value.longValue() + 1);
+                
+                o.setValue(value);
+                //total_links += value;
+            }
+        }
+        
+        /*
         for(var o : ontologies.entrySet()){
+            //System.out.println("\ttally iri: " + iri.toString());
+            //System.out.println("\tcompared to: " + o.getKey().toString());
             if(iri.toString().contains(o.getKey().toString())){
                 Long value = o.getValue();
                 value = Long.valueOf(value.longValue() + 1);
             }
         }
-
-        /*
-        for(var o : ontologies.entries()){
-            if(iri.toString().contains(o.getKey().toString())){
-                Long value = o.getValue();
-                value = Long.valueOf(value.longValue()+1);
-                
-                o.setValue(value);
-            }
-        }
         */
-        //long count = ontologies.keys().stream().filter(i->iri.toString().contains(i.toString())).count();
         
     }
     
     public static AuthorityHelper getInstance() {
         return AuthorityHelperHolder.INSTANCE;
     }
-
-    public void recordIRI(IRI ontology_iri) {
+    
+    private String deriveCURIE(String iri_string){
+        String curie = "";
         
-        ontologies.put(ontology_iri, Long.valueOf(0));
+        int b = iri_string.lastIndexOf("/");
+        iri_string = iri_string.toString().substring(b + 1);
+        
+        if (iri_string.contains(".") == true) {
+            iri_string = iri_string.substring(0, iri_string.lastIndexOf("."));
+        }
+        
+        curie = iri_string;
+        return curie;
+    }
+
+    public void recordIRI(String iri_string) {
+        
+        String curie = this.deriveCURIE(iri_string);
+        
+        System.out.println(curie.toString() + " has been added.");
+        ontologies.put(curie, Long.valueOf(0));
         
     }
 
     public double generateAuthorityScore(IRI ontology_iri){
-        
+        long demo=0;
         //get the denominator
-        if(total_links == 0) computeDenominator();
+        //if(total_links == 0) computeDenominator();
+        for(var d : ontologies.entrySet()){
+            demo = demo + d.getValue();
+        }
         
-        long longValue = ontologies.get(ontology_iri).longValue();
+        System.out.println("Denominator: " +demo);
+        
+        System.out.println("generate authorith score...");
+        System.out.println("\tSize of the storage: " + ontologies.size());
+        System.out.println("\tNumber of links: " + total_links);
+        
+        String curie = deriveCURIE(ontology_iri.toString());
+        
+        long longValue = ontologies.get(curie).longValue();
+        
+        System.out.println("\tValue number for onto: " + longValue);
         
         double result = (double)longValue/total_links;
         //Collection<Long> get = ontologies.get(ontology_iri);
@@ -90,14 +117,7 @@ public class AuthorityHelper {
     }
     
     public void computeDenominator(){
-        /*
-        for(var o : ontologies.entries()){
-            total_links+=o.getValue().longValue();
-        }
-        for(var o : ontologies.entrySet()){
-            
-        }
-        */
+        total_links = 0;
         for(var v : ontologies.values()){
             total_links +=v.longValue();
         }

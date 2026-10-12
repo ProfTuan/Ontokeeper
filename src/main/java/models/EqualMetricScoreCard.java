@@ -6,6 +6,7 @@ package models;
 
 import ontology.OntologyExtractor;
 import org.semanticweb.owlapi.model.IRI;
+import ui.AuthorityHelper;
 
 /**
  *
@@ -23,7 +24,11 @@ public class EqualMetricScoreCard extends MetricModel {
         calculateSubScores();
         
     }
-
+    /*
+    public double getSocialSocre(){
+        //return social
+    }
+    */
     public double getStructureScore(){
         return syntactic.getStructure();
     }
@@ -83,6 +88,7 @@ public class EqualMetricScoreCard extends MetricModel {
         
         syntactic.setEqualWeightedScoring();
         
+        social.setEqualWeightedScoring();
         
     }
     
@@ -106,11 +112,21 @@ public class EqualMetricScoreCard extends MetricModel {
         return syntactic_score;
     }
     
+    public double getSocialScore(){
+        double social_score = social.getScore();
+        
+        return social_score;
+    }
+    
     private void calculateSubScores(){
         
         pragmatic.calculate();
         semantic.calculate();
         syntactic.calculate();
+        social.calculate();
+        
+        double generateAuthorityScore = AuthorityHelper.getInstance().generateAuthorityScore(this.id);
+        System.out.println("Test Authority: " + generateAuthorityScore);
     }
         
 }

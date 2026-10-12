@@ -8,6 +8,7 @@ import java.io.Serializable;
 import org.json.JSONObject;
 import suite.pragmatic.Pragmatic;
 import suite.semantic.Semantic;
+import suite.social.Social;
 import suite.syntactic.Syntactic;
 
 /**
@@ -23,11 +24,13 @@ public abstract class MetricModel implements Serializable {
     protected Pragmatic pragmatic = null;
     protected Semantic semantic = null;
     protected Syntactic syntactic = null;
+    protected Social social = null;
     
     public MetricModel(){
         pragmatic = new Pragmatic();
         semantic = new Semantic();
         syntactic = new Syntactic();
+        social = new Social();
     }
     
     public void setOntologyName(String value){
