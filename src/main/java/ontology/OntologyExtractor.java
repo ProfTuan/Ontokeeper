@@ -1,6 +1,8 @@
 package ontology;
 
+import com.google.common.collect.Multimap;
 import java.io.File;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,6 +41,7 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
+import ui.AuthorityHelper;
 import util.ConfigFlags;
 import wordnet.Lexicon;
 import wordnet.WordNetService;
@@ -232,6 +235,8 @@ public class OntologyExtractor extends OntologyDataSource {
                 collectAverageLeafAncestorMetrics();
                 
                 this.number_of_annotations = this.collectAnnotationMetrics();
+                
+                this.recordIRIsFromLibrary(); //for social score
 	}
         
         public long collectClassMetrics(){
@@ -689,5 +694,36 @@ public class OntologyExtractor extends OntologyDataSource {
 
 		return builder.toString();
 	}
+        
+        public void recordIRIsFromLibrary(){
+            //this.owl_manager
+            IRI ontology_iri = this.ontology.getOntologyID().getOntologyIRI().orElse(null);
+            
+            AuthorityHelper.getInstance().recordIRI(ontology_iri);
+        }
+        
+        public void tallyMatches(){
+            
+            
+         
+            AuthorityHelper ah = AuthorityHelper.getInstance();
+            
+            ontology.classesInSignature().forEach(o->ah.tallyMatches(o.getIRI()));
+            
+            ontology.objectPropertiesInSignature().forEach(o->ah.tallyMatches(o.getIRI()));
+            
+            ontology.dataPropertiesInSignature().forEach(o->ah.tallyMatches(o.getIRI()));
+            
+            ontology.individualsInSignature().forEach(o->ah.tallyMatches(o.getIRI()));
+            
+            
+            
+        }
+
+    public IRI getOntologyIdentifier() {
+        
+        return ontology.getOntologyID().getOntologyIRI().orElse(null);
+        
+    }
 
 }

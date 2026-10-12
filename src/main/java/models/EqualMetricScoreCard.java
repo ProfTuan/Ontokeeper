@@ -5,6 +5,7 @@
 package models;
 
 import ontology.OntologyExtractor;
+import org.semanticweb.owlapi.model.IRI;
 
 /**
  *
@@ -12,14 +13,14 @@ import ontology.OntologyExtractor;
  */
 public class EqualMetricScoreCard extends MetricModel {
     
-    private String id = "";
+    private IRI id = null;
     private double overall_score = 0.000;
     
     public EqualMetricScoreCard(){
         
         initEqualWeightScoring();
         calculateSubScores();
-        //id  = OntologyExtractor.getInstance().getOntologyName();
+        id  = OntologyExtractor.getInstance().getOntologyIdentifier();
     }
 
     public double getStructureScore(){
