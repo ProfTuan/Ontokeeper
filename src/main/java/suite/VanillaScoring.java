@@ -322,8 +322,10 @@ public class VanillaScoring {
                         
                         OntologyExtractor oe = OntologyExtractor.getInstance();
                         
-                        
-                        
+                        oe.loadOntologyFile(this.filePath);
+                        if(oe.getOntologyIdentifier() != iri){
+                            
+                        }
                     }
                     
                 });
