@@ -31,6 +31,12 @@ public class AuthorityHelper {
         ontologies = new HashMap<>();
     }
     
+    public void print_ontologies(){
+        for(var o : ontologies.entrySet()){
+            System.out.println(o.getKey() + " - " + o.getValue().toString());
+        }
+    }
+    
     public Map<String, Long> getOntologiesList(){
         return ontologies;
     }
@@ -40,7 +46,7 @@ public class AuthorityHelper {
         String iri_string = iri.toString();
         
         for(var o :ontologies.entrySet()){
-            if(iri_string.contains(o.getKey().toString())){
+            if(iri_string.toUpperCase().contains(o.getKey().toString().toUpperCase())){
                 Long value = o.getValue();
                 value = Long.valueOf(value.longValue() + 1);
                 
@@ -82,7 +88,7 @@ public class AuthorityHelper {
 
     public void recordIRI(String iri_string) {
         
-        String curie = this.deriveCURIE(iri_string);
+        String curie = this.deriveCURIE(iri_string).toUpperCase();
         
         System.out.println(curie.toString() + " has been added.");
         ontologies.put(curie, Long.valueOf(0));
@@ -103,7 +109,7 @@ public class AuthorityHelper {
         System.out.println("\tSize of the storage: " + ontologies.size());
         System.out.println("\tNumber of links: " + total_links);
         
-        String curie = deriveCURIE(ontology_iri.toString());
+        String curie = deriveCURIE(ontology_iri.toString()).toUpperCase();
         
         long longValue = ontologies.get(curie).longValue();
         

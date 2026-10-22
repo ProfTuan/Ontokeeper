@@ -237,8 +237,10 @@ public class OntologyExtractor extends OntologyDataSource {
                 
                 this.number_of_annotations = this.collectAnnotationMetrics();
                 
-                this.recordIRIsFromLibrary(); //for social score
-                this.tallyMatches();
+                
+                // for social score
+                //this.recordIRIsFromLibrary(); //for social score
+                //this.tallyMatches();
 	}
         
         public long collectClassMetrics(){
@@ -752,7 +754,7 @@ public class OntologyExtractor extends OntologyDataSource {
             
             ontology.individualsInSignature().forEach(o->ah.tallyMatches(o.getIRI()));
             
-            
+            ah.print_ontologies();
             
         }
 

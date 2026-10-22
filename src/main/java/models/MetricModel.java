@@ -6,6 +6,7 @@ package models;
 
 import java.io.Serializable;
 import org.json.JSONObject;
+import org.semanticweb.owlapi.model.IRI;
 import suite.pragmatic.Pragmatic;
 import suite.semantic.Semantic;
 import suite.social.Social;
@@ -20,6 +21,7 @@ public abstract class MetricModel implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private String id = "";
+    protected IRI iri = null;
     
     protected Pragmatic pragmatic = null;
     protected Semantic semantic = null;
@@ -32,6 +34,12 @@ public abstract class MetricModel implements Serializable {
         syntactic = new Syntactic();
         social = new Social();
     }
+
+    public IRI getIRI() {
+        return iri;
+    }
+    
+    
     
     public void setOntologyName(String value){
         

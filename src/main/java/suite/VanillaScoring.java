@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
 import ontology.OntologyExtractor;
+import org.semanticweb.owlapi.model.IRI;
 import scoring.EqualWeightedComputation;
 import scoring.ScoreCardFactory;
 import suite.pragmatic.Adaptability;
@@ -264,51 +265,74 @@ public class VanillaScoring {
         return score_card;
     }
     
-    public ArrayList<EqualMetricScoreCard> batchRunProcessing(String folderPath, long average_elements){
-        
+    public ArrayList<EqualMetricScoreCard> batchRunProcessing(String folderPath, long average_elements) {
+
         ArrayList<EqualMetricScoreCard> score_cards = new ArrayList<EqualMetricScoreCard>();
         ScoreCardFactory score_factory = new ScoreCardFactory();
         batch = true;
         cf.setAverageElements(average_elements);
-        
-        
+
         try (Stream<Path> paths = Files.walk(Paths.get(folderPath))) {
 
             paths.forEach(p -> {
 
                 if (!Files.isDirectory(p)) {
-                    
+
                     String fileName = p.getFileName().toString();
                     String folder = (folderPath.endsWith("/")) ? folderPath : folderPath + "/";
-                    
-                    
+
                     if (fileName.contains(".owl") || fileName.contains(".rdf") || fileName.contains(".ttl")) {
 
                         this.filePath = p.toFile().getAbsolutePath();
                         System.out.println("Calculating..." + filePath.toString());
-                  
+
                         OntologyExtractor oe = OntologyExtractor.getInstance();
                         //oe.refresh();
                         oe.loadOntologyFile(this.filePath);
-                        
+
                         //EqualMetricScoreCard score_card = score_factory.getEqualWeightedScoreCard();
                         EqualMetricScoreCard score_card = new ScoreCardFactory().getEqualWeightedScoreCard();
                         score_card.setOntologyName(this.filePath);
                         score_cards.add(score_card);
-                        
+
                     }
                 }
 
             });
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception e){
-        System.out.println("error");
-    }
-        
-        
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
         System.out.println("Count of score cords: " + score_cards.size());
         
+        //calculate social score here
+        
+        for(var card : score_cards){
+            IRI iri = card.getIRI();
+            try (Stream<Path> paths = Files.walk(Paths.get(folderPath))) {
+                
+                paths.forEach(p -> {
+                    String fileName = p.getFileName().toString();
+                    String folder = (folderPath.endsWith("/")) ? folderPath : folderPath + "/";
+                    
+                    if (fileName.contains(".owl") || fileName.contains(".rdf") || fileName.contains(".ttl")) {
+                        this.filePath = p.toFile().getAbsolutePath();
+                        
+                        OntologyExtractor oe = OntologyExtractor.getInstance();
+                        
+                        
+                        
+                    }
+                    
+                });
+                
+            } catch (IOException ex) {
+                System.getLogger(VanillaScoring.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }
+
         return score_cards;
     }
 

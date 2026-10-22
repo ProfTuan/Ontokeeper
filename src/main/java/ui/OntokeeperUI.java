@@ -153,7 +153,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         txtBatchFolder = new javax.swing.JTextField();
         OBOLibraryButton = new javax.swing.JButton();
         txtOBOFolder = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
+        btnRunBatchProcessing = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         batchTable = new javax.swing.JTable();
         exportResultsButton = new javax.swing.JButton();
@@ -456,10 +456,10 @@ public class OntokeeperUI extends javax.swing.JFrame {
         txtOBOFolder.setEditable(false);
         txtOBOFolder.setText("...");
 
-        jButton6.setText("Run Batch Processing");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnRunBatchProcessing.setText("Run Batch Processing");
+        btnRunBatchProcessing.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnRunBatchProcessingActionPerformed(evt);
             }
         });
 
@@ -499,7 +499,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton6)
+                        .addComponent(btnRunBatchProcessing)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(exportResultsButton)
                         .addGap(0, 686, Short.MAX_VALUE))
@@ -550,7 +550,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
                 .addComponent(txtBatchFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
+                    .addComponent(btnRunBatchProcessing)
                     .addComponent(exportResultsButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
@@ -931,7 +931,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_OBOLibraryButtonActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnRunBatchProcessingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunBatchProcessingActionPerformed
 
 
         // TODO add your handling code here:
@@ -951,7 +951,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
         
         
         
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnRunBatchProcessingActionPerformed
 
     private void exportResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportResultsButtonActionPerformed
 
@@ -1366,6 +1366,7 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JButton btnNCBOBatchProcess;
     private javax.swing.JButton btnNCBOExport;
     private javax.swing.JButton btnOBOValue;
+    private javax.swing.JButton btnRunBatchProcessing;
     private javax.swing.JButton btnSaveNCBOAPI;
     private javax.swing.JButton btnSelectBatchFolder;
     private javax.swing.JComboBox<String> cbSlices;
@@ -1373,7 +1374,6 @@ public class OntokeeperUI extends javax.swing.JFrame {
     private javax.swing.JButton exportResultsButton;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
