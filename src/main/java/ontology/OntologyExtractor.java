@@ -239,7 +239,7 @@ public class OntologyExtractor extends OntologyDataSource {
                 
                 
                 // for social score
-                //this.recordIRIsFromLibrary(); //for social score
+                this.recordIRIsFromLibrary(); //for social score
                 //this.tallyMatches();
 	}
         
