@@ -1,3 +1,4 @@
 /target/
 apis.properties
 /ncbo
+.DS_Store
