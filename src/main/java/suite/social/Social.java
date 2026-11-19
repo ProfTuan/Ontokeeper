@@ -1,7 +1,6 @@
 package suite.social;
 
 import models.AbstractMetric;
-import ui.AuthorityHelper;
 
 public class Social extends AbstractMetric {
 

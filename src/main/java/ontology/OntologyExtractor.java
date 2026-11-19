@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -34,6 +35,7 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 import net.sf.extjwnl.data.POS;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.semanticweb.owlapi.formats.PrefixDocumentFormat;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -42,7 +44,8 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
-import ui.AuthorityHelper;
+import org.semanticweb.owlapi.util.DefaultPrefixManager;
+import suite.social.AuthorityHelper;
 import util.ConfigFlags;
 import wordnet.Lexicon;
 import wordnet.WordNetService;
@@ -58,6 +61,9 @@ public class OntologyExtractor extends OntologyDataSource {
 	private WordNetService wordNet = null;
         
         private String file_path;
+        
+        private DefaultPrefixManager prefixManager = new DefaultPrefixManager();
+        private OWLDocumentFormat ontology_format;
 
 	private OntologyExtractor() {
 		owl_manager = OWLManager.createOWLOntologyManager();
@@ -197,7 +203,11 @@ public class OntologyExtractor extends OntologyDataSource {
 		try {
                         owl_manager = OWLManager.createConcurrentOWLOntologyManager();
 			ontology = owl_manager.loadOntologyFromOntologyDocument(file);
-
+                        ontology_format = owl_manager.getOntologyFormat(ontology);
+                        
+                    PrefixDocumentFormat prefix_format = ontology_format.asPrefixOWLDocumentFormat();
+                    this.prefixManager.copyPrefixesFrom(prefix_format.getPrefixName2PrefixMap());
+                    
 
 		} catch (OWLOntologyCreationException e) {
 			// TODO Auto-generated catch block
@@ -236,8 +246,7 @@ public class OntologyExtractor extends OntologyDataSource {
                 collectAverageLeafAncestorMetrics();
                 
                 this.number_of_annotations = this.collectAnnotationMetrics();
-                
-                
+
                 // for social score
                 this.recordIRIsFromLibrary(); //for social score
                 //this.tallyMatches();
@@ -705,37 +714,7 @@ public class OntologyExtractor extends OntologyDataSource {
             //this.owl_manager
             IRI ontology_iri = this.ontology.getOntologyID().getOntologyIRI().orElse(null);
             
-            /*
-            OWLDocumentFormat of = this.owl_manager.getOntologyFormat(ontology);
-            if(of.isPrefixOWLDocumentFormat()){
-                
-                String defaultPrefix = of.asPrefixOWLDocumentFormat().getDefaultPrefix();
-                
-                
-                Map<String, String> pm = of.asPrefixOWLDocumentFormat().getPrefixName2PrefixMap();
-                
-                
-                for(var m : pm.entrySet()){
-                    System.out.println("\t" + m.getKey());
-                    System.out.println("\t\t" + m.getValue());
-                }
-
-            }*/
-            
-            //String iri_string = ontology_iri.toString(); System.out.println("Before: " + iri_string);
-            //int b = iri_string.lastIndexOf("/");
-
-            //System.out.println("IRI: " + iri_string.toString().substring(b + 1));
-
-            //iri_string = iri_string.toString().substring(b + 1);
-            //System.out.println("After: " + iri_string);
-            /*
-            if (iri_string.contains(".") == true) {
-                //System.out.println("last index of period: " + iri_string.lastIndexOf("."));
-                iri_string = iri_string.substring(0, iri_string.lastIndexOf("."));
-                //System.out.println("\t" + iri_string);
-            }
-            */
+           
             String iri_string = ontology_iri.toString();
             AuthorityHelper.getInstance().recordIRI(iri_string);
         }
@@ -763,5 +742,29 @@ public class OntologyExtractor extends OntologyDataSource {
         return ontology.getOntologyID().getOntologyIRI().orElse(null);
         
     }
+    
+    public void initAuthorityScoring(){
+        AuthorityHelper.getInstance().addOntologies(ontology.getOntologyID().getOntologyIRI().get());
+    }
 
+    
+    
+    public void printLibarayContents(){
+        
+        AuthorityHelper.getInstance().print_library_content();
+    }
+    
+    //
+    public void countCURIE(IRI iri_ontology){
+        
+            System.out.println("Count CURIE function");
+            IRI iriOntology = ontology.getOntologyID().getOntologyIRI().get();
+            
+            AuthorityHelper ah = AuthorityHelper.getInstance();
+            
+            ontology.classesInSignature().forEach(o->ah.tallyMatches(o.getIRI()));
+            
+    }
+    
+    
 }

@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Singleton.java to edit this template
  */
-package ui;
+package suite.social;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -24,11 +25,31 @@ public class AuthorityHelper {
     
     private Map<String, Long> ontologies;
     
+    private Map<IRI, Long> authority_ontologies;
+    
     private long total_links = 0;
     
     private AuthorityHelper() {
         
         ontologies = new HashMap<>();
+        
+        authority_ontologies = new HashMap<>();
+    }
+    
+    public void addOntologies(IRI iri_ontology){
+        Long intValue = Long.valueOf(0);
+        authority_ontologies.put(iri_ontology, intValue);
+        
+    }
+    
+    public void print_library_content(){
+        
+        for(var ao : authority_ontologies.entrySet()){
+            
+            System.out.println(ao.getKey().toString() + " with " + ao.getValue());
+            
+        }
+        
     }
     
     public void print_ontologies(){
@@ -41,31 +62,56 @@ public class AuthorityHelper {
         return ontologies;
     }
     
-    public void tallyMatches(IRI iri){
+    public void tallyMatches(IRI entity_iri){
         
-        String iri_string = iri.toString();
+        String curie = "";
         
-        for(var o :ontologies.entrySet()){
-            if(iri_string.toUpperCase().contains(o.getKey().toString().toUpperCase())){
+        if( entity_iri.toString().lastIndexOf("#")>0  ){
+            
+            String substring = entity_iri.toString().substring(entity_iri.toString().lastIndexOf("#") +1 );
+            
+            String subSequence = "";
+            
+            if(substring.contains("_")){
+                subSequence = (String) substring.subSequence(0, substring.lastIndexOf("_"));
+            }
+            else{
+                subSequence = substring;
+            }
+            
+            curie = subSequence;
+        }
+        
+        if( entity_iri.toString().lastIndexOf("/")>0 && entity_iri.toString().lastIndexOf("/") > entity_iri.toString().lastIndexOf("#") ){
+            
+            String substring = entity_iri.toString().substring(entity_iri.toString().lastIndexOf("/") +1);
+            String subSequence = "";
+            
+            if(substring.contains("_")){
+                subSequence = (String)substring.subSequence(0, substring.lastIndexOf("_"));
+            }
+            else{
+                subSequence = substring;
+            }
+            
+            curie = subSequence;
+        }
+        
+        System.out.println("\t\t" + curie);
+        
+        for (var o : authority_ontologies.entrySet()) {
+
+            if (Pattern.compile(Pattern.quote(curie), Pattern.CASE_INSENSITIVE).matcher(o.getKey().toString()).find()) {
+                System.out.println("\t\t\tCURIE: " + curie + " matches IRI: " + o.getKey().toString());
                 Long value = o.getValue();
-                value = Long.valueOf(value.longValue() + 1);
-                
+                value = Long.sum(value.longValue(), 1);
+
                 o.setValue(value);
-                //total_links += value;
             }
+
         }
-        
-        /*
-        for(var o : ontologies.entrySet()){
-            //System.out.println("\ttally iri: " + iri.toString());
-            //System.out.println("\tcompared to: " + o.getKey().toString());
-            if(iri.toString().contains(o.getKey().toString())){
-                Long value = o.getValue();
-                value = Long.valueOf(value.longValue() + 1);
-            }
-        }
-        */
-        
+
+
     }
     
     public static AuthorityHelper getInstance() {

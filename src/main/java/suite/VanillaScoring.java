@@ -36,7 +36,7 @@ import suite.syntactic.Lawfulness;
 import suite.syntactic.Richness;
 import suite.syntactic.Structure;
 import suite.syntactic.Syntactic;
-import ui.AuthorityHelper;
+import suite.social.AuthorityHelper;
 import util.ConfigFlags;
 
 public class VanillaScoring {
@@ -294,6 +294,9 @@ public class VanillaScoring {
                         EqualMetricScoreCard score_card = new ScoreCardFactory().getEqualWeightedScoreCard();
                         score_card.setOntologyName(this.filePath);
                         score_cards.add(score_card);
+                        
+                        oe.initAuthorityScoring();
+                        
 
                     }
                 }
@@ -323,9 +326,16 @@ public class VanillaScoring {
                         OntologyExtractor oe = OntologyExtractor.getInstance();
                         
                         oe.loadOntologyFile(this.filePath);
+                        
+                        //oe.testCURIE();
+                        
+                        /*
                         if(oe.getOntologyIdentifier() != iri){
-                            
+                            //oe.tallyMatches();
+                            //AuthorityHelper.getInstance().generateAuthorityScore(oe.getOntologyIdentifier());
                         }
+                        */
+                        oe.countCURIE(iri);
                     }
                     
                 });
@@ -335,6 +345,9 @@ public class VanillaScoring {
             }
         }
 
+        OntologyExtractor.getInstance().printLibarayContents();
+        //OntologyExtractor.getInstance().printLibraryOntologyID();
+        
         return score_cards;
     }
 
